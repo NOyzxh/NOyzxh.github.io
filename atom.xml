@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
     <title>毅种循环的洗剑录</title>
-    <updated>2022-04-22T20:10:49.831Z</updated>
+    <updated>2022-04-22T20:17:39.440Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://redteamblog.icu/images/avatar.png</logo>
     <icon>https://redteamblog.icu/favicon.ico</icon>
     <rights>All rights reserved 2022, 毅种循环的洗剑录</rights>
+    <entry>
+        <title type="html"><![CDATA[test]]></title>
+        <id>https://redteamblog.icu/post/suibi2/</id>
+        <link href="https://redteamblog.icu/post/suibi2/">
+        </link>
+        <updated>2022-04-22T20:15:54.000Z</updated>
+        <content type="html"><![CDATA[<p>1231</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[这是另外一篇随笔的测试]]></title>
+        <id>https://redteamblog.icu/post/suibi/</id>
+        <link href="https://redteamblog.icu/post/suibi/">
+        </link>
+        <updated>2022-04-22T20:13:37.000Z</updated>
+        <content type="html"><![CDATA[<p>这是另外一篇随笔的测试</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[这是一篇测试内容]]></title>
         <id>https://redteamblog.icu/post/test/</id>
