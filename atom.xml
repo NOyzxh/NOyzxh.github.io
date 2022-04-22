@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
     <title>毅种循环的洗剑录</title>
-    <updated>2022-04-22T20:06:41.639Z</updated>
+    <updated>2022-04-22T20:07:36.443Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
@@ -11,7 +11,7 @@
     <icon>https://redteamblog.icu/favicon.ico</icon>
     <rights>All rights reserved 2022, 毅种循环的洗剑录</rights>
     <entry>
-        <title type="html"><![CDATA[test]]></title>
+        <title type="html"><![CDATA[这是一篇测试内容]]></title>
         <id>https://redteamblog.icu/post/test/</id>
         <link href="https://redteamblog.icu/post/test/">
         </link>
