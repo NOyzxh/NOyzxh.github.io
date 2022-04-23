@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
     <title>毅种循环的洗剑录</title>
-    <updated>2022-04-23T06:37:33.202Z</updated>
+    <updated>2022-04-23T07:02:18.481Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
@@ -17,10 +17,11 @@
         <link href="https://redteamblog.icu/post/qian-tan-bypass-jin-shan-zhong-duan-an-quan-xi-tong-de-xin-lu-li-cheng/">
         </link>
         <updated>2022-04-23T06:35:55.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="浅谈bypass金山终端安全系统的心路历程"><strong>浅谈bypass金山终端安全系统的心路历程</strong></h3>
+        <content type="html"><![CDATA[<h1 id="关于金山终端的bypass心路历程-1">关于金山终端的bypass心路历程 (1)</h1>
+<h3 id="浅谈bypass金山终端安全系统的心路历程"><strong>浅谈bypass金山终端安全系统的心路历程</strong></h3>
 <h3 id="1漏洞详情"><strong>1.漏洞详情</strong></h3>
 <p>任意文件下载</p>
-<figure data-type="image" tabindex="1"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0659a55f-3767-496c-b4c5-5f8a046047ca/image-20220105185324607.png" alt="image-20220105185324607.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="%E5%85%B3%E4%BA%8E%E9%87%91%E5%B1%B1%E7%BB%88%E7%AB%AF%E7%9A%84bypass%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B%20(1)%20de10abde0d3942099056e4903ca0b09a/image-20220105185324607.png" alt="image-20220105185324607.png" loading="lazy"></figure>
 <pre><code>/htmltopdf/downfile.php?filename=xxx
 
 /conf
@@ -28,7 +29,7 @@
 .....
 </code></pre>
 <p>任意文件上传</p>
-<figure data-type="image" tabindex="2"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8a7e1147-a7e1-4348-9af7-abc841190795/image-20220105185415675.png" alt="image-20220105185415675.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="%E5%85%B3%E4%BA%8E%E9%87%91%E5%B1%B1%E7%BB%88%E7%AB%AF%E7%9A%84bypass%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B%20(1)%20de10abde0d3942099056e4903ca0b09a/image-20220105185415675.png" alt="image-20220105185415675.png" loading="lazy"></figure>
 <h3 id="2getshell"><strong>2.getshell</strong></h3>
 <p>遇到几个问题</p>
 <p>1.上传任意文件被秒删，只能存活一秒。</p>
@@ -119,7 +120,7 @@ start test user xxx /add
 <pre><code class="language-powershell">https://github.com/lengjibo/NetUser
 </code></pre>
 <p>原理在这不做过多阐述，大概就是利用windows自带的接口进行相关操作。最后结果图</p>
-<figure data-type="image" tabindex="3"><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1e72434e-7a22-44d7-8b25-4880d8ceeefb/image-20220105213723112.png" alt="image-20220105213723112.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="%E5%85%B3%E4%BA%8E%E9%87%91%E5%B1%B1%E7%BB%88%E7%AB%AF%E7%9A%84bypass%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B%20(1)%20de10abde0d3942099056e4903ca0b09a/image-20220105213723112.png" alt="image-20220105213723112.png" loading="lazy"></figure>
 <h3 id="4常见的shellcode免杀"><strong>4.常见的shellcode免杀</strong></h3>
 <p>对于一个web手来说，让我们手写shellcode来bypass杀软有点过分，所以或多或少需要借助已有轮子，这里推荐大家用go来生成相关的木马。</p>
 <p>对于go生成的木马特征不是很明显，不过还是容易被识别出来，所以我们需要借助混淆、清除特征来进行隐藏。</p>
