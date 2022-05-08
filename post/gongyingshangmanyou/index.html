@@ -86,7 +86,7 @@
 <p>目标：XXX.gov.cn 某个政务级目标</p>
 <p>系统：自建的邮件服务系统</p>
 <p>系统有滑块验证，因此从web爆破邮箱的作用不大，同时，服务端也没有真实IP可以走协议爆破。</p>
-<figure data-type="image" tabindex="1"><img src="assets/image-20220419164724-f9ybj9g.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220419164724-f9ybj9g.png" alt="image.png" loading="lazy"></figure>
 <p>然后对该系统进行了信息收集，同时利用天眼查查询到目标所属资产的供应商为XXXX公司。该公司承包了该市级单位绝大部分的第三方系统开发，属于是很有价值的供应商，随即改变想法准备去从供应商下手。</p>
 <h2 id="0x2-供应商信息收集">0x2 供应商信息收集</h2>
 <p>XX科技</p>
@@ -100,36 +100,36 @@
 <p>法人手机号：13333333333</p>
 <p>能从公开渠道查到的信息就只有这些，把收集到来的信息资产做了个查询，发现没啥可以利用的点，决定还是从网站入手。</p>
 <p>扫描域名，只获得了一个IP，查询历史解析也没有多余的的IP，对这个IP进行全端口扫描，对外开放IP只有3389和443、80这种端口，而且是云服务器，子域名也没有多余的资产。</p>
-<figure data-type="image" tabindex="2"><img src="assets/image-20220507095839-3f2kc1s.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220507095839-3f2kc1s.png" alt="image.png" loading="lazy"></figure>
 <p>不过发现网站目录中提供了一个OA登录的接口</p>
-<figure data-type="image" tabindex="3"><img src="assets/image-20220507100034-y3o6p37.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220507100034-y3o6p37.png" alt="image.png" loading="lazy"></figure>
 <p>利用弱口令登录尝试，输入账号后返回空白，但实际上是登录成功了的。</p>
-<figure data-type="image" tabindex="4"><img src="assets/image-20220507101002-te227r1.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220507101002-te227r1.png" alt="image.png" loading="lazy"></figure>
 <p>不过登录流程逻辑可能有点问题，需要手动改请求和访问路径才可以到后台。</p>
-<figure data-type="image" tabindex="5"><img src="assets/image-20220507101104-d8r94vn.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220507101104-d8r94vn.png" alt="image.png" loading="lazy"></figure>
 <p>到了供应商后台也没有发现什么信息，资产又少，所以决定从员工下手。</p>
 <p>众所周知，github的开发者常常喜欢放一些项目资料上去，一些脚本中的泄露账号密码此类的，于是我在GitHub上收集了到了疑似该公司的人。</p>
-<figure data-type="image" tabindex="6"><img src="assets/image-20220507101722-5ch8s16.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220507101722-5ch8s16.png" alt="image.png" loading="lazy"></figure>
 <p>他的项目仓库里面存有该公司的手册，同时我在另外一个项目找到了他的一个书签和口令密码，决定深挖此员工。</p>
 <h2 id="0x3-员工信息收集">0x3 员工信息收集</h2>
 <p>从他的项目代码来看，不少都是本地的localhostIP,不过有个别的书签地址引起了我的注意，其中一个是小米官网。</p>
 <p>根据现有的资产，该员工分别使用三个邮箱，分别为新浪和QQ，猜中他主要使用哪个邮箱也很容易，比如，查查小米的绑定。</p>
-<figure data-type="image" tabindex="7"><img src="assets/image-20220507102405-ik2cyr0.png" alt="image.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="8"><img src="assets/image-20220507102420-6ljkq13.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220507102405-ik2cyr0.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://redteamblog.icu/post-images/assets/image-20220507102420-6ljkq13.png" alt="image.png" loading="lazy"></figure>
 <p>利用找回密码功能获得小米的绑定邮箱，同时也获取到了该员工常用的邮箱。</p>
 <p>利用之前获取到的口令使用网易邮箱大师登录网易邮箱，简略看了一下往来邮件，没啥太大的价值，为了避免后面打草惊蛇，给邮箱设置转发控下该邮箱。</p>
-<figure data-type="image" tabindex="9"><img src="assets/image-20220507103010-aopi1y9.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://redteamblog.icu/post-images/assets/image-20220507103010-aopi1y9.png" alt="image.png" loading="lazy"></figure>
 <p>随即使用该邮箱登录小米账号。</p>
-<figure data-type="image" tabindex="10"><img src="assets/image-20220507103813-yhdxbnu.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://redteamblog.icu/post-images/assets/image-20220507103813-yhdxbnu.png" alt="image.png" loading="lazy"></figure>
 <p>从个人收货地址获得了真实姓名和物理地址，确定了是属于该公司的物理地址，随即使用小米云服务定位到个人。</p>
-<figure data-type="image" tabindex="11"><img src="assets/image-20220507104139-pu33928.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://redteamblog.icu/post-images/assets/image-20220507104139-pu33928.png" alt="image.png" loading="lazy"></figure>
 <p>接着利用邮件中的地址，登录51job查看该员工简历。</p>
-<figure data-type="image" tabindex="12"><img src="assets/image-20220507104435-kuz5onm.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://redteamblog.icu/post-images/assets/image-20220507104435-kuz5onm.png" alt="image.png" loading="lazy"></figure>
 <p>也从该员工的历史信息中确定曾经在在目标公司的员工。</p>
 <p>同时，从QQ邮箱中获取到了一些平台的账号。</p>
-<figure data-type="image" tabindex="13"><img src="assets/image-20220507104902-mu33ze1.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://redteamblog.icu/post-images/assets/image-20220507104902-mu33ze1.png" alt="image.png" loading="lazy"></figure>
 <p>从这些平台中登录了几个平台，不过都与目标无关系。</p>
-<figure data-type="image" tabindex="14"><img src="assets/image-20220507104947-a3te48i.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://redteamblog.icu/post-images/assets/image-20220507104947-a3te48i.png" alt="image.png" loading="lazy"></figure>
 <p>这个时候我已经在思考一个问题了，就是我拿了这么多信息，但是目标公司的OA，或者是内部交流使用什么渠道还不得知，无法从个人打到内部上去，内部肯定有一个通讯的地方，但是到目前为止，除了刚开始看到的技能手册，还没有看到该公司的任何信息，单纯的收集一些这种信息没啥用。</p>
 <h2 id="0x4-协同软件信息收集">0x4 协同软件信息收集</h2>
 <p>1.腾讯文档</p>
@@ -142,28 +142,28 @@
 <p>第二天，我依然坚持不懈的去找供应商的信息。</p>
 <p>我在想既然官网没有业务或者OA，那么他们用什么平台去交流或者通讯呢？</p>
 <p>这里我尝试了语雀/飞书/有道云笔记/钉钉/印象笔记/WPS此类的软件，经过几次尝试后，大部分账号我都可以用获取到的口令登录，钉钉和企业微信我都可以登录，但是都需要手机号验证，也许用的是两个中的一种，没得搞。</p>
-<figure data-type="image" tabindex="15"><img src="assets/image-20220507113125-q2bn7rk.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://redteamblog.icu/post-images/assets/image-20220507113125-q2bn7rk.png" alt="image.png" loading="lazy"></figure>
 <p>语雀和腾讯文档都没写啥东西，没得搞。</p>
-<figure data-type="image" tabindex="16"><img src="assets/image-20220507110040-35iqsch.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://redteamblog.icu/post-images/assets/image-20220507110040-35iqsch.png" alt="image.png" loading="lazy"></figure>
 <p>微云除了个人资料之外，没有任何公司的信息，也没啥用。</p>
 <p>那么只剩下WPS了。</p>
 <p>这个时候比较有意思的来了，金山文档多多少少肯定有在使用的，我用他的账号去重置为他的常用密码即可，因为他的密码规律都差不多，我赌他自己发现密码错了拿常用密码试进去了不会多想。</p>
 <p>但是呢，这个WPS的修改密码一直没有发到我的转发邮箱里面来，然后使用了github绑定的QQ+常用密码试进去了一个。</p>
-<figure data-type="image" tabindex="17"><img src="assets/image-20220507110135-axmjd5w.png" alt="image.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="18"><img src="assets/image-20220507110236-n6ivwuj.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://redteamblog.icu/post-images/assets/image-20220507110135-axmjd5w.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://redteamblog.icu/post-images/assets/image-20220507110236-n6ivwuj.png" alt="image.png" loading="lazy"></figure>
 <p>登录进去之后，yes！ 终于有目标资产的信息了，是一份公司的员工通讯录名单。</p>
-<figure data-type="image" tabindex="19"><img src="assets/image-20220507110442-5nptvan.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="19"><img src="https://redteamblog.icu/post-images/assets/image-20220507110442-5nptvan.png" alt="image.png" loading="lazy"></figure>
 <p>其实搞到这里就没准备搞了，因为确定不了目标使用的通讯平台，目标资产又较少，从员工打下去也不好说，接着从员工突破下去极有可能是徒劳的耗费时间。</p>
 <p>想想从员工搞过来这条路，运气蛮好的，凡是邮箱设置了一个二次登录验证或者他密码规则改强一点，都拿不到这份通讯录，这个员工基本上啥信息都拿到了，我感觉可能使用的是钉钉，但是钉钉需要刷人脸登录。</p>
 <h2 id="0x5-拿到目标">0x5 拿到目标</h2>
 <p>搞到这里我就开始反思，这条路似乎是拿不下来目标了，一没拿到源码，二是没有拿到系统的密码，供应商也没有较大的突破。</p>
 <p>看他使用github的比较多，我决定修改他的GitHub密码去翻仓库代码。</p>
 <p>使用刚开始控制的新浪邮箱修改了他密码为他的常用口令，登录成功。</p>
-<figure data-type="image" tabindex="20"><img src="assets/image-20220507111111-8ynsb23.png" alt="image.png" loading="lazy"></figure>
-<figure data-type="image" tabindex="21"><img src="assets/image-20220507112012-xgdu7r7.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://redteamblog.icu/post-images/assets/image-20220507111111-8ynsb23.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://redteamblog.icu/post-images/assets/image-20220507112012-xgdu7r7.png" alt="image.png" loading="lazy"></figure>
 <p>在查看他的所有仓库代码的时候，意外的找到了目标系统的一个口令，密码是一个常见的密码，账号比较长，属于是运气极佳了。</p>
 <p>使用该账号登录成功，并且还是管理员属性。</p>
-<figure data-type="image" tabindex="22"><img src="assets/image-20220507111637-629wtsp.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="22"><img src="https://redteamblog.icu/post-images/assets/image-20220507111637-629wtsp.png" alt="image.png" loading="lazy"></figure>
 <p>最终拿到后台权限。</p>
 <h2 id="0x6-总结">0x6 总结</h2>
 <p>没啥技术的一次渗透，运气是第一要素，环环相扣，干就完了。</p>
