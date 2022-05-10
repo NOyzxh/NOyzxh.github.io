@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
     <title>毅种循环的洗剑录</title>
-    <updated>2022-05-08T11:03:03.411Z</updated>
+    <updated>2022-05-10T08:58:13.244Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
@@ -11,6 +11,13 @@
     <logo>https://redteamblog.icu/images/avatar.png</logo>
     <icon>https://redteamblog.icu/favicon.ico</icon>
     <rights>All rights reserved 2022, 毅种循环的洗剑录</rights>
+    <entry>
+        <title type="html"><![CDATA[CVE-2022-1388 F5 BIG-IP未授权RCE漏洞&写Webshell]]></title>
+        <id>https://redteamblog.icu/post/CVE-2022-1388 F5 BIG-IP未授权RCE漏洞&amp;写Webshell/</id>
+        <link href="https://redteamblog.icu/post/CVE-2022-1388 F5 BIG-IP未授权RCE漏洞&amp;写Webshell/">
+        </link>
+        <updated>2022-05-10T06:35:55.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[记一次供应商到目标之旅]]></title>
         <id>https://redteamblog.icu/post/gongyingshangmanyou/</id>
