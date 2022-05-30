@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://redteamblog.icu</id>
-    <title>毅种循环的洗剑录</title>
-    <updated>2022-05-16T10:40:44.234Z</updated>
+    <title>🐳毅种循环</title>
+    <updated>2022-05-30T10:33:33.882Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://redteamblog.icu"/>
     <link rel="self" href="https://redteamblog.icu/atom.xml"/>
-    <subtitle>&lt;br&gt;西郊有密林，助君出重围。&lt;br&gt;
-&lt;br&gt;Information Safety/Redteam/Moyu&lt;br&gt;</subtitle>
+    <subtitle>&lt;/br&gt;西郊有密林，助君出重围。&lt;/br&gt;
+&lt;/br&gt;# WhoAmI&lt;/br&gt;
+&lt;/br&gt;# 毅种循环&lt;/br&gt;</subtitle>
     <logo>https://redteamblog.icu/images/avatar.png</logo>
     <icon>https://redteamblog.icu/favicon.ico</icon>
-    <rights>All rights reserved 2022, 毅种循环的洗剑录</rights>
+    <rights>All rights reserved 2022, 🐳毅种循环</rights>
+    <entry>
+        <title type="html"><![CDATA[域委派利用]]></title>
+        <id>https://redteamblog.icu/post/域委派/</id>
+        <link href="https://redteamblog.icu/post/域委派/">
+        </link>
+        <updated>2022-05-30T02:22:35.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH]]></title>
+        <id>https://redteamblog.icu/post/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/</id>
+        <link href="https://redteamblog.icu/post/使用Mimikatz读取SAM和SYSTEM文件中的NTLM-HASH/">
+        </link>
+        <updated>2022-05-27T10:35:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[sqlps.exe白名单的利用（过360！）]]></title>
+        <id>https://redteamblog.icu/post/sqlpsexe-bai-ming-dan-de-li-yong-guo-360/</id>
+        <link href="https://redteamblog.icu/post/sqlpsexe-bai-ming-dan-de-li-yong-guo-360/">
+        </link>
+        <updated>2022-05-27T02:22:35.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[APP安全测试-模拟器环境配置]]></title>
+        <id>https://redteamblog.icu/post/APP安全测试-模拟器踩坑记/</id>
+        <link href="https://redteamblog.icu/post/APP安全测试-模拟器踩坑记/">
+        </link>
+        <updated>2022-05-20T06:35:55.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[CVE-2019-1388：通过 UAC 进行 Windows 提权]]></title>
         <id>https://redteamblog.icu/post/CVE-2019-1388：通过 UAC 进行 Windows 提权/</id>

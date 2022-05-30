@@ -1,0 +1,375 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>APP安全测试-模拟器环境配置 - 🐳毅种循环</title>
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://redteamblog.icu/media/css/tailwind.css">
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="APP安全测试-模拟器环境配置 - 🐳毅种循环 - Atom Feed" href="https://redteamblog.icu/atom.xml">
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-226932280-1');
+  </script>
+    
+
+  <meta name="description" content="模拟器选择
+1.逍遥模拟器（以弃用）
+//原因是因为做好环境之后开机总是提示你重新修复环境。
+2.雷电模拟器（现用）
+//有一个问题就是4.0的雷电模拟器挂了WIFI代理之后失效，需要使用ADB增加代理或者使用profile之类的软件进行中..." />
+  <meta property="og:title" content="APP安全测试-模拟器环境配置 - 🐳毅种循环">
+  <meta property="og:description" content="模拟器选择
+1.逍遥模拟器（以弃用）
+//原因是因为做好环境之后开机总是提示你重新修复环境。
+2.雷电模拟器（现用）
+//有一个问题就是4.0的雷电模拟器挂了WIFI代理之后失效，需要使用ADB增加代理或者使用profile之类的软件进行中..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://redteamblog.icu/post/APP安全测试-模拟器踩坑记/" />
+  <meta property="og:image" content="https://api.ixiaowai.cn/api/api.php?=6">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="APP安全测试-模拟器环境配置 - 🐳毅种循环">
+  <meta name="twitter:description" content="模拟器选择
+1.逍遥模拟器（以弃用）
+//原因是因为做好环境之后开机总是提示你重新修复环境。
+2.雷电模拟器（现用）
+//有一个问题就是4.0的雷电模拟器挂了WIFI代理之后失效，需要使用ADB增加代理或者使用profile之类的软件进行中...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://redteamblog.icu/post/APP安全测试-模拟器踩坑记/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://redteamblog.icu/media/css/prism-vs-light.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://redteamblog.icu" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      🐳毅种循环
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          APP安全测试-模拟器环境配置
+        </h1>
+        
+          <img src="https://api.ixiaowai.cn/api/api.php?=6" alt="APP安全测试-模拟器环境配置" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2022-05-20 · 4 min read</div>
+          
+            <a href="https://redteamblog.icu/tag/-uEIOBB-D/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              渗透测试
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h2 id="模拟器选择">模拟器选择</h2>
+<p>1.逍遥模拟器（以弃用）</p>
+<p>//原因是因为做好环境之后开机总是提示你重新修复环境。</p>
+<p>2.雷电模拟器（现用）</p>
+<p>//有一个问题就是4.0的雷电模拟器挂了WIFI代理之后失效，需要使用ADB增加代理或者使用profile之类的软件进行中转代理。</p>
+<h2 id="版本的选择">版本的选择</h2>
+<p>1.很多APP现已经不支持7.0系统一下，所以尽量安装7.0的安卓模拟器。</p>
+<p>2.7.0安装XP框架较为麻烦，需要找到对应的包，因此使用一键安装XP框架解决。</p>
+<h2 id="证书配置">证书配置</h2>
+<p>按照网上那些老掉牙的文章，都是导出一个Burp/Charles证书之后，adb push到模拟器，然后修改后缀为crt直接安全，这种方式在Android 6及之前的版本可用，从Android 7.0开始，Android更改了信任用户安装的证书的默认行为，应用程序仅信任系统级CA。这样就导致安装证书后，如果尝试通过Burp或者Charlse代理访问https网站，系统会提示“该证书并非来自可信的授权中心”：</p>
+<p>因为安卓安全机制的原因，7.0以上的系统，安装BURP证书需要打到系统信任里面，这里需要对BURP的证书做一些设置，如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220520093517-ik12afq.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220520093524-j8uevq2.png" alt="image.png" loading="lazy"></figure>
+<p>导出Burp的证书后，使用openssl来做一些改动：</p>
+<pre><code class="language-mount">openssl x509 -inform DER -in cacert.der -out cacert.pem
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220520093618-0q0opzs.png" alt="image.png" loading="lazy"></figure>
+<p>查看pem证书的hash值并记录，命令如下：</p>
+<pre><code class="language-mount">openssl x509 -inform PEM -subject_hash_old -in cacert.pem |head -1
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220520093738-78avq0i.png" alt="image.png" loading="lazy"></figure>
+<p>将pem证书改名为“hash值.0”：</p>
+<pre><code class="language-mv">mv cacert.pem 9a5ba575.0
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220520093802-1hlif2a.png" alt="image.png" loading="lazy"></figure>
+<p>然后使用adb将<hash>.0文件push到模拟器的/system/etc/security/文件夹中，并将权限修改为644：</p>
+<pre><code class="language-mv">adb push &lt;hash&gt;.0 /system/etc/security/cacerts
+adb shell chmod 644 /system/etc/security/cacerts/&lt;hash&gt;.0
+</code></pre>
+<p>如果更改不了权限，就使用adb remount来解除分区限制后导入，如下：</p>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220520093905-4j7t0v4.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220520094132-peuh243.png" alt="image.png" loading="lazy"></figure>
+<p>最后能看到信任证书在系统里面即可。</p>
+<h2 id="安装xpoesd框架">安装Xpoesd框架</h2>
+<p>之前提到了，安装很有问题，所以借用别人的经验采取一键安装。</p>
+<p><a href="https://redteamblog.icu/post-images/assets/Xposed_Android_7x64-20220520095057-gmfv4e9.exe">Xposed_Android_7x64.exe</a></p>
+<p>此文件适用于64位模拟器，系统为Android7的版本，不适用于夜神，请勿使用。</p>
+<p>放在模拟器根目录执行，等待重启即可。</p>
+<h2 id="绕过双向验证">绕过双向验证</h2>
+<p>有的时候因为app会对服务器端的证书进行校验, 这时候我们前面安装的burp就不起作用了, 应用在发现证书是伪造的情况下拒绝发送请求。根据这个报错+抓不到包, 我们可以确定应用是存在单向校验的, 也就是SSL pinning, 让我们先来解决SSL pinning的问题。使用JustTrustMe可以绕过客户端的证书校验, 下面勾选上JustTrustMe, 在Xposed框架下使用JustTrustMe绕过SSL pinning。<br>
+<br /></p>
+<figure data-type="image" tabindex="8"><img src="https://redteamblog.icu/post-images/assets/image-20220520095520-mx3bp97.png" alt="image.png" loading="lazy"></figure>
+<h2 id="雷电模拟器增加代理">雷电模拟器增加代理</h2>
+<p>之前提到过，要么使用中转配置，要么使用ADB 我这里增加的ADB配置。</p>
+<p>添加代理</p>
+<pre><code class="language-mv">adb shell settings put global http_proxy 192.168.4.199:8888
+</code></pre>
+<p>移除代理</p>
+<pre><code class="language-mv">adb shell settings delete global http_proxy&amp;adb shell settings delete global global_http_proxy_host&amp;adb shell settings delete global global_http_proxy_port
+</code></pre>
+<p>或者没有delete命令时</p>
+<pre><code class="language-mv">adb shell settings put global http_proxy :0
+</code></pre>
+<p>暂时只记录这么多吧。</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A8%A1%E6%8B%9F%E5%99%A8%E9%80%89%E6%8B%A9">模拟器选择</a></li>
+<li><a href="#%E7%89%88%E6%9C%AC%E7%9A%84%E9%80%89%E6%8B%A9">版本的选择</a></li>
+<li><a href="#%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE">证书配置</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85xpoesd%E6%A1%86%E6%9E%B6">安装Xpoesd框架</a></li>
+<li><a href="#%E7%BB%95%E8%BF%87%E5%8F%8C%E5%90%91%E9%AA%8C%E8%AF%81">绕过双向验证</a></li>
+<li><a href="#%E9%9B%B7%E7%94%B5%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%A2%9E%E5%8A%A0%E4%BB%A3%E7%90%86">雷电模拟器增加代理</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://redteamblog.icu/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://redteamblog.icu/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'Ik52EhrTkYU8moKHOkLSm7bp-gzGzoHsz',
+    appKey: 'o582DpzvYHyL0Gpu3SaatYO7',
+    pageSize: 10,
+    notify: true,
+    avatar: 'mp',
+    verify: true,
+    placeholder: '来都来了，不妨评论一下',
+    visitor: true,
+    highlight: false,
+    recordIP: false,
+  })
+</script>
+  
+  
+</body>
+
+</html>
