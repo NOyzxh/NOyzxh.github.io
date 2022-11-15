@@ -1,0 +1,332 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#0x01-%E5%AE%89%E8%A3%85">0x01 安装</a></li>
+<li><a href="#0x02-%E5%90%AF%E5%8A%A8">0x02 启动</a></li>
+<li><a href="#0x03-%E6%8A%93%E5%8F%96%E7%99%BB%E5%BD%95%E5%8C%85%E6%9A%B4%E7%A0%B4">0x03 <strong>抓取登录包暴破</strong></a></li>
+<li><a href="#0x04-%E5%AE%8C">0x04 完</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Burp插件验证码识别</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-11-15 / 3 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=31" alt="">
+        
+        <div class="post-content yue">
+          <p>项目地址：https://github.com/f0ng/captcha-killer-modified</p>
+<p>识别库：</p>
+<p>https://github.com/sml2h3/ddddocr</p>
+<p>‍</p>
+<h2 id="0x01-安装">0x01 安装</h2>
+<p>前置条件：安装dddocr.</p>
+<p>pip3 install ddddocr</p>
+<p>使用作者提供的jar包和py文件，需要修改py文件第17行，要不然会报错。</p>
+<pre><code>async def handle_cb(request):
+    img_base64=await request.text()
+    return web.Response(text=ocr.classification(img_base64))
+</code></pre>
+<p>‍</p>
+<p>‍</p>
+<h2 id="0x02-启动">0x02 启动</h2>
+<p>启动python脚本</p>
+<pre><code>Python3 codereg.py
+</code></pre>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115111235-eo5o6ug.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<p><strong>获取验证码</strong></p>
+<p>拦截请求验证码的包，比如：</p>
+<p>http://127.0.0.1/yanzheng/yanzhengma.php</p>
+<p>并右键发送到 captcha panel</p>
+<p>​<img src="https://pic4.zhimg.com/80/v2-544bf15bae5dc288ba8a97d10baad4c3_720w.webp" alt="" loading="lazy">​</p>
+<p>填写验证码URL，并点击获取，右侧显示验证码图片即为正常。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115111429-nkwwlhf.png" alt="image" loading="lazy">​</p>
+<p>填写接口URL和请求模板（Request template）</p>
+<p>模板如下：</p>
+<pre><code>POST /reg HTTP/1.1
+Host: 127.0.0.1:8888
+Authorization:Basic f0ngauth
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 8332
+
+&lt;@BASE64&gt;&lt;@IMG_RAW&gt;&lt;/@IMG_RAW&gt;&lt;/@BASE64&gt;
+</code></pre>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115111311-st92u98.png" alt="image" loading="lazy">​</p>
+<p>填好以后点击“识别”，即可识别刚刚获取的图片验证码。</p>
+<p>重复点击“识别”，可以重复识别。</p>
+<p>点击一次“获取”，点击一次“识别”，可以逐张识别。</p>
+<p>用来观察右侧验证码识别是否准确。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115111550-eodyg1d.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<h2 id="0x03-抓取登录包暴破">0x03 <strong>抓取登录包暴破</strong></h2>
+<p>打开拦截开关，对登录操作进行拦截抓包，发送到Intruder模块</p>
+<p>攻击模式选择：Pitchfork</p>
+<p>攻击字段标记密码和验证码的值</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112016-rvdq47s.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<p>第一个payload是用户名的值：</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112039-76lyhkq.png" alt="image" loading="lazy"></p>
+<p>​</p>
+<p>第二个payload是验证码的值：</p>
+<p>选择模式有变化，需要加载插件。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112120-bqib6a3.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<p><strong>PS：注意需要设置单线程，要不然验证码会串。同时设置延迟最好。</strong></p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112217-a0jcypy.png" alt="image" loading="lazy"></p>
+<p>​</p>
+<p>然后，冲。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112322-jmlr3rm.png" alt="image" loading="lazy"></p>
+<p>在插件页面页面也可以看到具体的识别情况。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/image-20221115112331-o4on3db.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<h2 id="0x04-完">0x04 完</h2>
+<p>‍</p>
+<p>只能识别一些简单的图形，算术的都GG了。</p>
+<p>​<img src="https://redteamblog.icu/post-images/assets/a3e7c7580098e64feae83de5369a942-20221115112515-yyqdzux.png" alt="a3e7c7580098e64feae83de5369a942" loading="lazy">​</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/-uEIOBB-D/">
+            <span class="flex-auto">渗透测试</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/telegram-session-hijacking/">
+                <h3 class="post-title">
+                  Telegram Session Hijacking
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

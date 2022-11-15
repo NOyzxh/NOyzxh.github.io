@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://redteamblog.icu</id>
+    <title>🐳毅种循环</title>
+    <updated>2022-11-15T03:40:46.662Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://redteamblog.icu"/>
+    <link rel="self" href="https://redteamblog.icu/atom.xml"/>
+    <subtitle>&lt;/br&gt;西郊有密林，助君出重围。&lt;/br&gt;
+&lt;/br&gt;# WhoAmI&lt;/br&gt;
+&lt;/br&gt;# 毅种循环&lt;/br&gt;</subtitle>
+    <logo>https://redteamblog.icu/images/avatar.png</logo>
+    <icon>https://redteamblog.icu/favicon.ico</icon>
+    <rights>All rights reserved 2022, 🐳毅种循环</rights>
+    <entry>
+        <title type="html"><![CDATA[Burp插件验证码识别]]></title>
+        <id>https://redteamblog.icu/post/burp-cha-jian-yan-zheng-ma-shi-bie/</id>
+        <link href="https://redteamblog.icu/post/burp-cha-jian-yan-zheng-ma-shi-bie/">
+        </link>
+        <updated>2022-11-15T03:31:38.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Telegram Session Hijacking]]></title>
+        <id>https://redteamblog.icu/post/telegram-session-hijacking/</id>
+        <link href="https://redteamblog.icu/post/telegram-session-hijacking/">
+        </link>
+        <updated>2022-10-31T08:55:17.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[shiro WAF——bypass]]></title>
+        <id>https://redteamblog.icu/post/shiro-waf-bypass/</id>
+        <link href="https://redteamblog.icu/post/shiro-waf-bypass/">
+        </link>
+        <updated>2022-10-20T14:22:00.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[记一次护网目标]]></title>
+        <id>https://redteamblog.icu/post/ji-yi-ci-hu-wang-mu-biao/</id>
+        <link href="https://redteamblog.icu/post/ji-yi-ci-hu-wang-mu-biao/">
+        </link>
+        <updated>2022-10-20T14:01:42.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一次攻击的攻击思路图]]></title>
+        <id>https://redteamblog.icu/post/yi-ci-gong-ji-de-gong-ji-si-lu-tu/</id>
+        <link href="https://redteamblog.icu/post/yi-ci-gong-ji-de-gong-ji-si-lu-tu/">
+        </link>
+        <updated>2022-08-20T15:17:57.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[soap 注入]]></title>
+        <id>https://redteamblog.icu/post/soap-zhu-ru/</id>
+        <link href="https://redteamblog.icu/post/soap-zhu-ru/">
+        </link>
+        <updated>2022-08-15T14:07:45.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一次类极限环境下的内网横向突破]]></title>
+        <id>https://redteamblog.icu/post/极限环境下的横向突破/</id>
+        <link href="https://redteamblog.icu/post/极限环境下的横向突破/">
+        </link>
+        <updated>2022-08-15T12:35:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2022-21882 Win32k特权提升复现]]></title>
+        <id>https://redteamblog.icu/post/CVE-2022-21882 Win32k特权提升复现/</id>
+        <link href="https://redteamblog.icu/post/CVE-2022-21882 Win32k特权提升复现/">
+        </link>
+        <updated>2022-06-30T16:35:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2022-26134 Confluence OGNL 写内存马]]></title>
+        <id>https://redteamblog.icu/post/CVE-2022-26134 Confluence OGNL RCE/</id>
+        <link href="https://redteamblog.icu/post/CVE-2022-26134 Confluence OGNL RCE/">
+        </link>
+        <updated>2022-06-30T16:35:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spring Boot Dump文件转储利用]]></title>
+        <id>https://redteamblog.icu/post/Spring Boot Dump文件转储利用/</id>
+        <link href="https://redteamblog.icu/post/Spring Boot Dump文件转储利用/">
+        </link>
+        <updated>2022-06-30T16:35:55.000Z</updated>
+    </entry>
+</feed>

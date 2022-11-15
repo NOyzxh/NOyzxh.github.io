@@ -1,0 +1,342 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#0x01-%E6%94%BB%E5%87%BB%E9%93%BE%E8%B7%AF%E5%9B%BE">0X01 攻击链路图</a></li>
+<li><a href="#0x02-%E5%85%A5%E5%8F%A3">0x02 入口</a></li>
+<li><a href="#0x03-%E5%86%85%E7%BD%91">0x03 内网</a></li>
+<li><a href="#0x04-%E6%80%9D%E8%80%83">0x04 思考</a></li>
+<li><a href="#0x05-%E6%9F%B3%E6%9A%97%E8%8A%B1%E6%98%8E">0x05 柳暗花明</a></li>
+<li><a href="#0x06-%E6%80%BB%E7%BB%93">0x06 总结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">一次类极限环境下的内网横向突破</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-08-15 / 4 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=25" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="0x01-攻击链路图">0X01 攻击链路图</h2>
+<p>图做的比较密，单独截出几份用于说明选择和目标的方向。</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220819110305-o8p6arr.png" alt="image" loading="lazy"></figure>
+<p>关于供应商的收集</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220819110323-k7it1qj.png" alt="image" loading="lazy">​</p>
+<p>关于供应商的打击链。</p>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220819110543-t82hubm.png" alt="image" loading="lazy"></figure>
+<p>关于此次供应商目标的选择。</p>
+<h2 id="0x02-入口">0x02 入口</h2>
+<p>入口很简单，一个Confluence的漏洞，直接写入内存马。</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220815221256-6mikk8j.png" alt="image" loading="lazy"></figure>
+<p>系统存在360全家桶</p>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220727135910-lvs7uu0.png" alt="image" loading="lazy"></figure>
+<p>系统是2008 ,选择直接导出这台机器的hash。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815221319-m8984va.png" alt="image" loading="lazy">​</p>
+<ul>
+<li>
+<p>Username : Administrator</p>
+<ul>
+<li>Domain   : WIN-69U1J6S1795</li>
+<li>Password : HNG7%i&amp;RU</li>
+</ul>
+</li>
+</ul>
+<h2 id="0x03-内网">0x03 内网</h2>
+<p>刚开始3389连不上，扫描扫过去看到3389没开。</p>
+<p>感觉就是改了端口，去查了一下还真是改了。</p>
+<pre><code>tasklist /svc | findstr TermService //先查询出端口
+netstat -ano | findstr 2956 //再查此PID对应的服务
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220727155153-a0eih1m.png" alt="image" loading="lazy"></figure>
+<p>发现端口是53388，成功连接。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220816101401-pl693n0.png" alt="image" loading="lazy">​</p>
+<p>IP是192.168.1.188。</p>
+<p>内网扫描出了一些web资产。</p>
+<p>​</p>
+<pre><code>] WebTitle:http://192.168.43.1:8080/login.action?os_destination=%2Findex.action&amp;permissionViolation=true code:200 len:29508  title:登录 - 技术中心文档管理系统
+[*] WebTitle:http://192.168.1.201:8080/login.action?os_destination=%2Findex.action&amp;permissionViolation=true code:200 len:29508  title:登录 - 技术中心文档管理系统
+[*] WebTitle:http://192.168.150.1:8080/login.action?os_destination=%2Findex.action&amp;permissionViolation=true code:200 len:29508  title:登录 - 技术中心文档管理系统
+</code></pre>
+<p>不过这几个内网的web都没啥价值，都在VM的网卡段。</p>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220727170215-bc7om1p.png" alt="image" loading="lazy"></figure>
+<p>到这里我想的是去用密码碰撞一个内网其他的机器，直接使用fscan去爆破RDP。</p>
+<pre><code>fscan.exe -m rdp -p 3389 -h 192.168.30.1/24 -user administrator -pwd test123 -o res.txt
+</code></pre>
+<p>但是问题之一来了，内网的3389全改了，无法找到正确的3389端口也就不能爆破。</p>
+<p>考虑尝试了SMB看看能不能写，结果不如人意，SMB也无法利用。</p>
+<p>SMB过去之后发现连不上，因为对方开了默认公用共享，即便是密码为空也可以连接。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815221546-t3d2gau.png" alt="image" loading="lazy">​</p>
+<p>看了一下管理员是从哪台机器上登过来的。</p>
+<p>管理员来路IP获取：</p>
+<pre><code>wevtutil qe security /format:text /q:&quot;Event[System[(EventID=4624)] and EventData[Data[@Name='TargetUserName']='administrator']]&quot;|find &quot;源网络&quot;
+</code></pre>
+<p>根据查出来的连过来这台机器的IP发现访问不通了。</p>
+<p>那么问题来了，现在的情况貌似无法横向出去了，没有任何可用于突破的资产。</p>
+<p>之前考虑到本机的RDP端口在5W以上，利用kscan扫描内网的5W端口获得了其他几台的机器RDP端口</p>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220727213130-e82at24.png" alt="image" loading="lazy"></figure>
+<p>不过很遗憾的是利用之前的密码，这几台机器的RDP都没连上去，至此，环境陷入僵局。</p>
+<h2 id="0x04-思考">0x04 思考</h2>
+<p>已做的事情有：</p>
+<ul>
+<li>翻阅本机文件、RDP、回收站，确认没有可以利用的文件，RDP不保存密码，已有的密码碰撞失败。</li>
+<li><s>内网RDP端口全改，碰撞RDP较为困难</s>（已解决，利用kscan的指纹识别成功获得RDP端口）。</li>
+<li>管理员来路已经定位，管理员PC机打不过去。</li>
+<li>内网没有第三方可打的服务了。</li>
+</ul>
+<h2 id="0x05-柳暗花明">0x05 柳暗花明</h2>
+<p>这个环境就卡着了，当时没啥办法就放闲置了。</p>
+<p>后来根据防守队噩梦的提醒，去扫了内网IP段的40000以上的端口。</p>
+<p>原因是，向日葵在启动后会在40000以上随机开放一个web端口，认证有问题可以直接通过cgi-bin/rpc?action=verify-haras获取cid 执行回显rce。</p>
+<p>通过部分机器上的向日葵漏洞成功横向出去。</p>
+<p>假装有图.jpg</p>
+<h2 id="0x06-总结">0x06 总结</h2>
+<p>这是一个值得思考的案例，有的时候真要仔细思考一下内网中还有那些服务能打的，有时候利用第三方服务往往有意想不到的效果。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/-uEIOBB-D/">
+            <span class="flex-auto">渗透测试</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/soap-zhu-ru/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  soap 注入
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/CVE-2022-21882 Win32k特权提升复现/">
+                <h3 class="post-title">
+                  CVE-2022-21882 Win32k特权提升复现
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

@@ -1,0 +1,306 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%94%BB%E7%95%A5">攻略</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">靶机日志-内部文件上传系统分析漏洞溯源</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-06-27 / 2 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=20" alt="">
+        
+        <div class="post-content yue">
+          <p>一颗星难度</p>
+<p>https://www.mozhe.cn/bug/detail/Umc0Sm5NMnkzbHM0cFl2UlVRenA1UT09bW96aGUmozhe</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220625214654-15spgaw.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220625214701-jdgse8h.png" alt="image.png" loading="lazy"></figure>
+<p>可以查看到IIS是6.0，众所周知IIS6.0有解析漏洞，先看一下请求详情。</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220625214830-368b8ne.png" alt="image.png" loading="lazy"></figure>
+<p>ASP是上传不了的，经过测试是白名单上传，只允许JPG，TXT此类文件的上传。</p>
+<p>那么直接考虑试一试IIS的解析漏洞。</p>
+<p>IIS 6.0解析利用方法有两种</p>
+<p>1.目录解析</p>
+<pre><code>/xx.asp/xx.jpg
+</code></pre>
+<p>2.文件解析</p>
+<pre><code>sp.asp;.jpg
+</code></pre>
+<p>第一种，在网站下建立文件夹的名字为  <em>.asp、</em> .asa 的文件夹，其目录内的任何扩展名的文件都被IIS当作asp文件来解析并执行。</p>
+<p>例如创建目录 sp.asp，那么</p>
+<pre><code>/sp.asp/1.jpg
+</code></pre>
+<p>将被当作asp文件来执行。假设黑阔可以控制上传文件夹路径,就可以不管你上传后你的图片改不改名都能拿shell了。</p>
+<p>第二种，在IIS6.0下，分号后面的不被解析，也就是说</p>
+<pre><code>sp.asp;.jpg
+</code></pre>
+<p>会被服务器看成是sp.asp</p>
+<p>还有IIS6.0 默认的可执行文件除了asp还包含这三种</p>
+<pre><code>/sp.asa
+/sp.cer
+/sp.cdx
+</code></pre>
+<p>乌云上的IIS 6.0解析漏洞利用案例</p>
+<p><a href="http://www.wooyun.org/searchbug.php?q=IIS6.0">http://www.wooyun.org/searchbug.php?q=IIS6.0</a></p>
+<h3 id="攻略">攻略</h3>
+<p>直接使用目录解析漏洞即可，这里是目录是可控的。</p>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220625215139-min9mlu.png" alt="image.png" loading="lazy"></figure>
+<p>蚁剑连接之。</p>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/2bd47edb5d78143aecef2b5dae68c9c-20220625215206-6bx5o4o.png" alt="2bd47edb5d78143aecef2b5dae68c9c.png" loading="lazy"></figure>
+<p>在WWWroot目录找到key值。</p>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220625215240-9e82slv.png" alt="image.png" loading="lazy"></figure>
+<p>完事~。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/rOzFKO8rf/">
+            <span class="flex-auto">靶机日志</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/靶机日志-CMS系统漏洞分析溯源(第8题)/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  靶机日志-CMS系统漏洞分析分析溯源(第八题)
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/wu-yun-dian-dang-ji/">
+                <h3 class="post-title">
+                  乌云典当记
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

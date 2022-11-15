@@ -1,0 +1,332 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AE%9E%E6%88%98%E7%8E%AF%E5%A2%83">实战环境</a></li>
+<li><a href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">目录结构</a></li>
+<li><a href="#session-hijacking%E6%B5%81%E7%A8%8B"><strong>session hijacking流程</strong></a></li>
+<li><a href="#session-hijacking-start"><strong>session hijacking start</strong></a></li>
+<li><a href="#passcode%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84-%E5%8A%AB%E6%8C%81">passcode情况下的 劫持</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Telegram Session Hijacking</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-10-31 / 4 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=30" alt="">
+        
+        <div class="post-content yue">
+          <p>2018年5月16日，Talos发表了关于<a href="https://blog.talosintelligence.com/2018/05/telegrab.html">Telegrab</a>的一篇文章，介绍了可以劫持Telegram会话的恶意软件。原理非常简单：如果攻击者可以复制桌面用户的会话令牌（session token），那么就能劫持会话。除了本地存储的信息外，攻击者不需要其他任何信息。无论信息是否经过加密都不重要，只要复制这个信息，攻击者就能使用该新信息创建一个影子会话（shadow session）。</p>
+<p>‍</p>
+<h2 id="实战环境">实战环境</h2>
+<p>有的时候，迫于一些目的，当有目标PC机权限的时候，需要对该目标的个人通讯进行持续的监控获取更多的有利信息，那么就有了session hijacking的需求。</p>
+<p>‍</p>
+<h2 id="目录结构">目录结构</h2>
+<p>Telegram用户数据一般存放在与telegram.exe同目录下的tdata文件夹内。</p>
+<p>一个有效的telegram登录用户的目录结构如下：</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20221031104414-815kh2c.png" alt="image" loading="lazy">​</p>
+<p>关键几个文件如下：</p>
+<p>​<code>settingss</code>​文件主要存储了用户页面相关的配置，包括背景图片，颜色，语言包等配置信息。</p>
+<p>​<code>D877F783D5D3EF8Cs</code>​文件主要存储了用户的userId，以及与telegram云端进行数据通信时所使用到的加密密钥。</p>
+<p><strong>D877F783D5D3EF8C/maps</strong>文件中<code>lskSelfSerialized</code>​字段存储了用户的基本信息，包括用户id，头像，姓名，注册电话，上次在线时间等信息。而其他字段主要存储的是一些配置或者资源文件的文件名，并且与文章开头列举的<code>D877F783D5D3EF8C</code>​文件夹下的文件一一对应。</p>
+<p><strong>D877F783D5D3EF8C/configs</strong></p>
+<p>​<code>configs</code>​文件主要存储了用户聊天，与telegram云端进行通信时的一些基础配置，包括telegram云端的ip和端口，撤回消息的时长限制等配置信息。</p>
+<p>‍</p>
+<p>TG具体怎么加密保存这些信息的，能力有限也不去分析了。</p>
+<p>‍</p>
+<h2 id="session-hijacking流程"><strong>session hijacking流程</strong></h2>
+<p>众所周知，telegram默认是支持多端登录的，多端之间没有设备交叉验证来获取密钥解密，所以这种特性就造成了就变成了劫持session的最完美的前置条件，仅仅只需要你得tdata文件。</p>
+<p>现在流传在网上的session劫持方法都是通过复制整个tdata文件夹进行session的劫持，但对于一个使用了较长时间的telegram来说，tdata的体积会变得十分庞大（MB，甚至GB的量级），这在实战的过程中会有很大的局限性。</p>
+<p>在强隐蔽的情况下，动大动作去拖取上GB的做法是十分不理智的。</p>
+<p>现在我们已经有解读大部分tdata文件的能力，因此可以选取最关键（保存session）的文件，减小拖取文件的体积，从而更方便于session的劫持。</p>
+<p>能够成功进行session劫持的关键文件有：</p>
+<ul>
+<li>tdata/key_datas</li>
+<li>tdata/D877F783D5D3EF8Cs</li>
+<li>tdata/D877F783D5D3EF8C</li>
+</ul>
+<p>key_datas是保存密钥的，D877F783D5D3EF8Cs保存的云端拉取信息的通讯密钥，而D877F783D5D3EF8C则是保存了用户的基础信息。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20221031111005-52ruqmq.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<h2 id="session-hijacking-start"><strong>session hijacking start</strong></h2>
+<p>‍</p>
+<p>获取了上述的三个文件之后，我分别用两个不同的虚拟机来完成此次的劫持过程。</p>
+<p>‍</p>
+<p>从192.168.59.129这台机器导出目标的三个资源文件，然后在192.168.59.138这台机器的TG存入这三个资源文件，然后打开138的TG。</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20221031112509-ksdz3pm.png" alt="image" loading="lazy"></figure>
+<p>复制机，第二台机。</p>
+<p>消息记录成功同步拉取。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20221031112623-rsi4fgk.png" alt="image" loading="lazy">​</p>
+<p>第一台机。</p>
+<p>‍</p>
+<p>两台机器之间的消息记录能够同步，并且新发消息也能收到，在手机上查看当前登录设备也没有多余可疑设备，说明影子账户成功，session劫持成功。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20221031112848-wb6d32s.png" alt="image" loading="lazy">​</p>
+<p>‍</p>
+<h2 id="passcode情况下的-劫持">passcode情况下的 劫持</h2>
+<p>注：</p>
+<p>如果开启了本地密码认证成功，此会话劫持之后依然要输入密码。</p>
+<p>且此本地密钥是不和云端同步的，所以只能想其他办法获得此密钥。</p>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20221031113028-ga82jow.png" alt="image" loading="lazy"></figure>
+<p>如下图所示：</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20221031113039-44f2re8.png" alt="image" loading="lazy"></figure>
+<p>‍</p>
+<p>遇到这种情况只有另想办法，比如在PC机器上做键盘记录。</p>
+<p>‍</p>
+<p>‍</p>
+<p>‍</p>
+<h2 id="参考">参考</h2>
+<p>https://www.anquanke.com/post/id/167866 针对WhatsApp、Telegram及Signal应用的侧信道攻击技术研究</p>
+<p>https://www.dongzt.cn/archives/514.html Windows 下Telegram Desktop的身份凭证窃取</p>
+<p>http://www.ctfiot.com/23645.html Telegram session劫持探索</p>
+<p>‍</p>
+<p>‍</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/-uEIOBB-D/">
+            <span class="flex-auto">渗透测试</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/burp-cha-jian-yan-zheng-ma-shi-bie/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  Burp插件验证码识别
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/shiro-waf-bypass/">
+                <h3 class="post-title">
+                  shiro WAF——bypass
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

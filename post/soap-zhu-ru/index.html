@@ -1,0 +1,402 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#soap-%E6%B3%A8%E5%85%A5%E7%AE%80%E4%BB%8B">soap 注入简介</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFsoap">什么是soap</a></li>
+<li><a href="#soap-sql%E6%B3%A8%E5%85%A5">soap SQL注入</a>
+<ul>
+<li><a href="#soap-sql%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86">SOAP sql注入原理</a>
+<ul>
+<li><a href="#soap%E7%9A%84%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F">soap的消息格式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a></li>
+<li><a href="#%E9%99%84%E5%BD%95">附录</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">soap 注入</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-08-15 / 6 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=26" alt="">
+        
+        <div class="post-content yue">
+          <h2 id="soap-注入简介">soap 注入简介</h2>
+<p>soap注入就是在webservice 的soap协议，连接web服务和客户端的接口处的注入，通过在发送的soap消息参数内添加注入语句来达到注入效果，常见的有sql注入，也有xml注入，代码注入</p>
+<h2 id="什么是soap">什么是soap</h2>
+<p>首先介绍webservice，webservice是一种跨平台，跨语言的规范，用于不同平台，不同语言间的交互，webservice有三要素，分别为soap,wsdl和uddl，uddl用于提供发布和查询webservice方法，wsdl是webservice服务描述语言，用于web服务说明，它是一个xml文档，用于说明一组soap消息如何访问接口，soap是简单对象访问协议，用于分布式环境的基于信息交换的同行协议，描述传递信息的格式和规范，它可以用于连接web服务和客户端之间的接口，是一个可以在不同操作系统上运行的不同语言编写的程序之间的传输通信协议，格式为xml，soap消息</p>
+<p>soap协议又分为soap 1.1 和 soap 1.2 两个版本<br>
+这两个协议间的区别在于soap 1.1里存在soapAction请求头，而soap 1.2没有，soap 1.2里用了action来代替，两者的wsdl文件也不同，体现在命名空间和定义service差别里，不过这些对注入没有影响</p>
+<h2 id="soap-sql注入">soap SQL注入</h2>
+<h3 id="soap-sql注入原理">SOAP sql注入原理</h3>
+<p>soap sql 注入就是攻击者修改发送的soap消息参数，达到发起SQL注入的效果，在服务提供端，soap信息被解析，参数在访问数据库前没有被检测，导致执行sql语句，造成sql注入</p>
+<h4 id="soap的消息格式">soap的消息格式</h4>
+<p>之前提到过soap的格式为xml的</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;soap:Envelope xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+
+&lt;soap:Header&gt;
+&lt;/soap:Header&gt;
+
+&lt;soap:Body&gt;
+&lt;soap:Fault&gt;
+&lt;/soap:Fault&gt;
+&lt;/soap:Body&gt;
+
+&lt;/soap:Envelope&gt;
+</code></pre>
+<p>Envelope:用于把xml信息标记为soap<br>
+header：包含请求信息<br>
+Body:包含了请求和相应信息<br>
+Fault：包含了发生的错误信息</p>
+<p>这里重点关注Body，Body处包含了请求和相应信息，当Body内有存在数据可控时，就有可能存在注入</p>
+<p>例如</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;soap:Envelope xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+&lt;soap:Body&gt;
+&lt;GetServiceCustomer xmlns=&quot;http://tempuri.org/&quot;&gt;
+&lt;UserID&gt;string&lt;/UserID&gt;
+&lt;ServiceType&gt;string&lt;/ServiceType&gt;
+&lt;CO_CODE&gt;string&lt;/CO_CODE&gt;
+&lt;/GetServiceCustomer&gt;
+&lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
+<p>如果这里的UserID处的参数被放入数据库查询，就有可能触发漏洞，当然，这里需要知道此处web服务的功能，sql注入一般发生在数据查询处</p>
+<p>或者可以去通过查看asmx下的wsdl，wsdl是一个xml，用于说明soap消息及如何使用这些消息，通常形式为asmx?wsdl,后面测试里会提到的。</p>
+<h2 id="实践">实践</h2>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815215940-1j6m1vz.png" alt="image" loading="lazy">​</p>
+<p>经过目录遍历发现了这个地址，其中的数据包就是SOAP包</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815215926-03mp9c9.png" alt="image" loading="lazy">​</p>
+<p>​</p>
+<p>有一个特征是以WSDL后缀作为结束的</p>
+<pre><code>http://XXXXXXX:8001/PosWcfService.svc?singleWsdl
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220810173832-2vv0db2.png" alt="image" loading="lazy"></figure>
+<p>​</p>
+<p>这些是WSDL其中的接口，以XML格式展示的，看上去不是很方便。</p>
+<p>使用Burp的插件可以解析到这些接口路径。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815220006-m00nmph.png" alt="image" loading="lazy">​</p>
+<p>把其中的WSDL路径右键解析过去，插件即可识别出接口。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815220025-tmt0lwf.png" alt="image" loading="lazy">​</p>
+<p>那么就找接口中的注入什么的，命令执行什么的。</p>
+<p><img src="https://redteamblog.icu/post-images/assets/image-20220815220044-6fumssu.png" alt="image" loading="lazy">​</p>
+<p>经过测试，我在CheckUpload模块发现了PostID存在注入，使用sqlmap跑即可。</p>
+<pre><code>POST /PosWcfService.svc HTTP/1.1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://xxxxxx:8001/PosWcfService.svc
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Connection: close
+SOAPAction: http://tempuri.org/IPosWcfService/CheckUpload
+Content-Type: text/xml;charset=UTF-8
+Host: XXXXXXX:8001
+Content-Length: 583
+
+&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tem=&quot;http://tempuri.org/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;tem:CheckUpload&gt;
+         &lt;!--type: string--&gt;
+         &lt;tem:sessionId&gt;gero et&lt;/tem:sessionId&gt;
+         &lt;!--type: string--&gt;
+         &lt;tem:posId&gt;*&lt;/tem:posId&gt;
+         &lt;!--type: int--&gt;
+         &lt;tem:shopid&gt;3&lt;/tem:shopid&gt;
+         &lt;!--type: int--&gt;
+         &lt;tem:id&gt;3&lt;/tem:id&gt;
+         &lt;!--type: string--&gt;
+         &lt;tem:msg&gt;quae divum incedo&lt;/tem:msg&gt;
+      &lt;/tem:CheckUpload&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220810234447-1gyfa71.png" alt="image" loading="lazy"></figure>
+<p>注入就出来了。</p>
+<h2 id="附录">附录</h2>
+<p>另外还有一些自动化API测试的，比如<code>ReadyAPI</code>。</p>
+<p><strong>2.ReadyAPI</strong></p>
+<p>配置Burp代理</p>
+<figure data-type="image" tabindex="3"><a href="https://www.xffbk.cn/usr/uploads/2021/01/3842593611.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/3842593611.png" alt="readyAPI" title="readyAPI" loading="lazy"></a></figure>
+<p>readyAPI</p>
+<p>打开ReadyAPI选择New Security Test（创建新的安全测试）</p>
+<figure data-type="image" tabindex="4"><a href="https://www.xffbk.cn/usr/uploads/2021/01/1846468401.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/1846468401.png" alt="new" title="new" loading="lazy"></a></figure>
+<p>new</p>
+<p>这里三个都可以选择，我选择第一个</p>
+<figure data-type="image" tabindex="5"><a href="https://www.xffbk.cn/usr/uploads/2021/01/782290313.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/782290313.png" alt="new" title="new" loading="lazy"></a></figure>
+<p>new</p>
+<p>填入需要测试的API接口</p>
+<figure data-type="image" tabindex="6"><a href="https://www.xffbk.cn/usr/uploads/2021/01/1133353339.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/1133353339.png" alt="api" title="api" loading="lazy"></a></figure>
+<p>api</p>
+<p>点击Finish自行自动探测</p>
+<figure data-type="image" tabindex="7"><a href="https://www.xffbk.cn/usr/uploads/2021/01/560690721.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/560690721.png" alt="Finish" title="Finish" loading="lazy"></a></figure>
+<p>Finish</p>
+<figure data-type="image" tabindex="8"><a href="https://www.xffbk.cn/usr/uploads/2021/01/3392049308.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/3392049308.png" alt="扫描" title="扫描" loading="lazy"></a></figure>
+<p>扫描</p>
+<p>从Burp历史请求记录中可以看到已经产生大量的payload</p>
+<figure data-type="image" tabindex="9"><a href="https://www.xffbk.cn/usr/uploads/2021/01/905347461.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/905347461.png" alt="payload" title="payload" loading="lazy"></a></figure>
+<p>payload</p>
+<p>输出结果发现存在sql注入：</p>
+<figure data-type="image" tabindex="10"><a href="https://www.xffbk.cn/usr/uploads/2021/01/1644927631.png"><img src="https://www.xffbk.cn/usr/uploads/2021/01/1644927631.png" alt="down" title="down" loading="lazy"></a></figure>
+<p>但是我感觉这玩意不是很准。。</p>
+<figure data-type="image" tabindex="11"><img src="https://redteamblog.icu/post-images/assets/image-20220810235011-xci8e7k.png" alt="image" loading="lazy"></figure>
+<p>。</p>
+<h2 id="参考">参考</h2>
+<p>https://www.xffbk.cn/archives/23.html</p>
+<p>https://freebuf.com/articles/web/325085.html</p>
+<p>https://www.anquanke.com/post/id/85410</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/-uEIOBB-D/">
+            <span class="flex-auto">渗透测试</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/yi-ci-gong-ji-de-gong-ji-si-lu-tu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  一次攻击的攻击思路图
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/极限环境下的横向突破/">
+                <h3 class="post-title">
+                  一次类极限环境下的内网横向突破
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

